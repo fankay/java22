@@ -31,14 +31,15 @@
 
         document.querySelector("#btn").onclick = function(){
             var name = document.querySelector("#name").value;
-            //sendGet(name);
-            sendPost(name);
+            sendGet(name);
+            //sendPost(name);
         };
 
         function sendGet(name) {
             //1. 获取Ajax引擎
             var xmlHttp = createXmlHttp();
             //2. 指定请求方式(GET|POST)和请求地址
+            //xmlHttp.open("get","/ajax?name="+name+"&_="+new Date().getTime());
             xmlHttp.open("get","/ajax?name="+name);
             //3. 发出请求
             xmlHttp.send();

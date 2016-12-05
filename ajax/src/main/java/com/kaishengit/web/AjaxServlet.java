@@ -16,6 +16,12 @@ public class AjaxServlet extends HttpServlet {
         String name = req.getParameter("name");
         name = new String(name.getBytes("ISO8859-1"),"UTF-8"); //URL中含有中文
 
+        //声明禁止浏览器缓存结果的响应头
+        resp.setHeader("pragma","no-cache");
+        resp.setHeader("cache-control","no-cache");
+        resp.setHeader("expries","0");
+
+
         System.out.println("Hello,Ajax!!! -> " + name);
 
         PrintWriter out = resp.getWriter();
