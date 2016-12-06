@@ -1,5 +1,7 @@
 package com.kaishengit;
 
+import com.google.gson.Gson;
+import com.kaishengit.entity.User;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -15,13 +17,40 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Test {
 
     public static void main(String[] args) throws IOException {
 
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        User user = new User(1,"李四","北京");
+        User user1 = new User(12,"王明明","上海");
+        User user2 = new User(23,"赵丽丽","郑州");
+
+        List<User> userList = Arrays.asList(user,user1,user2);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(userList);
+
+        System.out.println(json);
+
+
+        /*List<String> names = Arrays.asList("jack","rose","alex");
+        String json = new Gson().toJson(names);
+
+        System.out.println(json);*/
+
+
+        /*User user = new User(1,"李四","北京");
+
+        String json = new Gson().toJson(user);
+        System.out.println(json);*/
+
+
+
+
+       /* CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost("http://localhost:8080/save");
 
         List<NameValuePair> params = new ArrayList<>();
@@ -32,7 +61,7 @@ public class Test {
 
         for(int i = 0;i < 5;i++) {
             httpClient.execute(httpPost);
-        }
+        }*/
 
 
 

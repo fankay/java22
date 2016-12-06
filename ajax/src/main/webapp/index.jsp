@@ -14,9 +14,27 @@
 <div id="result"></div>
 
 
+<script src="/static/js/ajax.js"></script>
 <script>
     (function(){
 
+        document.querySelector("#btn").onclick = function () {
+            var name = document.querySelector("#name").value;
+            ajax.sendPost({
+                url : "/ajax",
+                data : "name="+name+"&age=23",
+                success : function(data){
+                    alert(data);
+                },
+                error : function(){
+                    alert("服务器异常");
+                }
+            });
+        };
+
+
+    })();
+/*
         //创建XMLHttpRequest对象
         function createXmlHttp() {
             var xmlHttp = null;
@@ -75,7 +93,7 @@
             xmlHttp.send("name="+name+"&age=23");
         }
 
-    })();
+    })();*/
 </script>
 
 </body>
