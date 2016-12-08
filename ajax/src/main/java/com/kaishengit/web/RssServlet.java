@@ -15,7 +15,7 @@ public class RssServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = "http://www.pingwest.com/feed/";
+        String url = req.getParameter("url"); //"http://www.pingwest.com/feed/";
         String result = HttpUtil.sendHttpGetRequestWithString(url);
 
         resp.setCharacterEncoding("UTF-8");
