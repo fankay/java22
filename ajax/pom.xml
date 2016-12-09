@@ -15,6 +15,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5</version>
@@ -58,6 +63,19 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.33</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.2.0</version>
+            <!--排除Maven的依赖-->
+            <exclusions>
+                <exclusion>
+                    <artifactId>com.google.code.gson</artifactId>
+                    <groupId>gson</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

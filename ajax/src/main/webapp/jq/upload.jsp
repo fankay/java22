@@ -29,7 +29,8 @@
             swf:"/static/js/webuploader/Uploader.swf",
             server:"/upload",
             pick:"#picker",
-            fileVal:"file"
+            fileVal:"file",
+            auto:true
         });
         //选择文件放入上传队列,调用一次
         uploder.on("fileQueued",function(file){
@@ -50,8 +51,9 @@
             }
         });
         //文件上传成功
-        uploder.on("uploadSuccess",function(file){
+        uploder.on("uploadSuccess",function(file,data){
             $("#"+file.id).css("color","green");
+            console.log(data.state);
         });
         //文件上传失败
         uploder.on("uploadError",function(file){
