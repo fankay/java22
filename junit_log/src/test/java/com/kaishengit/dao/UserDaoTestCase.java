@@ -31,6 +31,8 @@ public class UserDaoTestCase {
     @Test
     public void testFindById() {
         User user = userDao.findById(7);
+        user = userDao.findById(7);
+        user = userDao.findById(6);
 
         assertNotNull(user);
     }
@@ -44,5 +46,15 @@ public class UserDaoTestCase {
     @Test
     public void testDel() {
         userDao.del(1);
+    }
+
+    @Test
+    public void testSystem() {
+        String str = System.getProperty("java.io.tmpdir");
+        System.out.println(str);
+
+        System.out.println(System.getProperty("java.version"));
+        System.out.println(System.getProperty("java.home"));
+        System.out.println(System.getProperty("os.name"));
     }
 }

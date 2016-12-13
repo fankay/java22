@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcahe>
+    <!--
+        java.io.tmpdir 获取当前操作系统登录用户的临时文件夹路径
+    -->
+    <diskStore path="java.io.tmpdir"/>
+
+    <cache name="user"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="30"
+           overflowToDisk="true"
+    />
+
+    <cache name="book"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="300"
+           overflowToDisk="false"
+    />
+
+</ehcahe>

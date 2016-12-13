@@ -1,6 +1,8 @@
 package com.kaishengit.entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private Integer id;
     private String username;
@@ -46,5 +48,16 @@ public class User {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", tel='" + tel + '\'' +
+                '}';
     }
 }

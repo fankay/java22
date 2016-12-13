@@ -36,7 +36,7 @@ public class DbHelp {
         try {
             T t = queryRunner.query(sql,handler,params);
 
-            logger.debug("SQL: {}");
+            logger.debug("SQL: {}",sql);
             return t;
         } catch (SQLException e) {
             logger.error("执行{}异常",sql);
