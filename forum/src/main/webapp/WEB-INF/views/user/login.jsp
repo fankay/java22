@@ -16,17 +16,17 @@
             <span class="title"><i class="fa fa-sign-in"></i> 登录</span>
         </div>
 
-        <form action="" class="form-horizontal">
+        <form action="" class="form-horizontal" id="loginForm">
             <div class="control-group">
                 <label class="control-label">账号</label>
                 <div class="controls">
-                    <input type="text">
+                    <input type="text" name="username">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">密码</label>
                 <div class="controls">
-                    <input type="text">
+                    <input type="password" name="password">
                 </div>
             </div>
             <div class="control-group">
@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary">登录</button>
+                <button class="btn btn-primary" type="button" id="loginBtn">登录</button>
 
                 <a class="pull-right" href="/reg">注册账号</a>
             </div>
@@ -50,5 +50,8 @@
     <!--box end-->
 </div>
 <!--container end-->
+<script src="/static/js/jquery-1.11.1.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/user/login.js"></script>
 </body>
 </html>

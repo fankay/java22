@@ -14,6 +14,7 @@ public class EmailUtil {
         htmlEmail.setHostName(Config.get("email.smpt"));
         htmlEmail.setSmtpPort(Integer.valueOf(Config.get("email.port")));
         htmlEmail.setAuthentication(Config.get("email.username"),Config.get("email.password"));
+        htmlEmail.setCharset("UTF-8");
         htmlEmail.setStartTLSEnabled(true);
 
         try {
