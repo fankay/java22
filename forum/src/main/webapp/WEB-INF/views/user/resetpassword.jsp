@@ -14,38 +14,27 @@
 <div class="container">
     <div class="box">
         <div class="box-header">
-            <span class="title"><i class="fa fa-sign-in"></i> 登录</span>
+            <span class="title"><i class="fa fa-sign-in"></i> 重置密码</span>
         </div>
 
-        <form action="" class="form-horizontal" id="loginForm">
-            <c:if test="${not empty requestScope.message}">
-                <div class="alert alert-success">
-                    ${requestScope.message}
-                </div>
-            </c:if>
+        <form action="" class="form-horizontal" id="resetForm">
+            <input type="hidden" name="id" value="${requestScope.user.id}">
+            <input type="hidden" name="token" value="${requestScope.token}">
             <div class="control-group">
-                <label class="control-label">账号</label>
+                <label class="control-label">新密码</label>
                 <div class="controls">
-                    <input type="text" name="username">
+                    <input type="password" name="password" id="password">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">密码</label>
+                <label class="control-label">请重复密码</label>
                 <div class="controls">
-                    <input type="password" name="password">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label"></label>
-                <div class="controls">
-                    <a href="/foundpassword">忘记密码</a>
+                    <input type="password" name="repassword">
                 </div>
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary" type="button" id="loginBtn">登录</button>
-
-                <a class="pull-right" href="/reg">注册账号</a>
+                <button class="btn btn-primary" type="button" id="resetBtn">保存</button>
             </div>
 
         </form>
@@ -58,6 +47,6 @@
 <!--container end-->
 <script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
-<script src="/static/js/user/login.js"></script>
+<script src="/static/js/user/resetpassword.js"></script>
 </body>
 </html>
