@@ -1,6 +1,7 @@
 package com.kaishengit.web.user;
 
 import com.google.common.collect.Maps;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.UserService;
 import com.kaishengit.web.BaseServlet;
 
@@ -32,7 +33,7 @@ public class RegServlet extends BaseServlet{
             userService.saveNewUser(username, password, email, phone);
 
             result.put("state","success");
-        } catch (Exception ex) {
+        } catch (ServiceException ex) {
             ex.printStackTrace();
             result.put("state","error");
             result.put("message","注册失败，请稍后再试");

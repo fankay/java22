@@ -212,10 +212,42 @@ public class UserService {
         if(passwordCache.getIfPresent(token) == null) {
             throw new ServiceException("token过期或错误");
         } else {
-            User user = userDao.findById(Integer.valueOf(id));
+            String username = passwordCache.getIfPresent(token);
+            User user = userDao.findByUserName(username); //userDao.findById(Integer.valueOf(id));
             user.setPassword(DigestUtils.md5Hex(Config.get("user.password.salt")+password));
             userDao.update(user);
+
+            //删除token
+            passwordCache.invalidate(token);
+
             logger.info("{} 重置了密码",user.getUsername());
+        }
+    }
+
+    /**
+     * 修改用户的电子邮件
+     * @param user
+     * @param email
+     */
+    public void updateEmail(User user, String email) {
+        user.setEmail(email);
+        userDao.update(user);
+    }
+
+    /**
+     * 修改用户的密码
+     * @param user
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     */
+    public void updatePassword(User user, String oldPassword, String newPassword) {
+        String salt = Config.get("user.password.salt");
+        if(DigestUtils.md5Hex(salt + oldPassword).equals(user.getPassword())) {
+            newPassword = DigestUtils.md5Hex(salt + newPassword);
+            user.setPassword(newPassword);
+            userDao.update(user);
+        } else {
+            throw new ServiceException("原始密码错误");
         }
     }
 }

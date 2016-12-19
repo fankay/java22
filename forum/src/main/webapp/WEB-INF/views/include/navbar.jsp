@@ -9,7 +9,7 @@
             <c:choose>
                 <c:when test="${not empty sessionScope.curr_user}">
                     <li>
-                        <a href="#">
+                        <a href="/setting">
                             <img src="http://ohwnpkfcx.bkt.clouddn.com/${sessionScope.curr_user.avatar}?imageView2/1/w/20/h/20" class="img-circle" alt="">
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                         <a href="#"><i class="fa fa-bell"></i></a>
                     </li>
                     <li>
-                        <a href="setting.html"><i class="fa fa-cog"></i></a>
+                        <a href="/setting"><i class="fa fa-cog"></i></a>
                     </li>
                     <li>
                         <a href="/logout"><i class="fa fa-sign-out"></i></a>
