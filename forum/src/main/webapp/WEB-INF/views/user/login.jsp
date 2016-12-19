@@ -23,6 +23,11 @@
                     ${requestScope.message}
                 </div>
             </c:if>
+            <c:if test="${not empty param.redirect}">
+                <div class="alert alert-success">
+                        请登录后再继续操作
+                </div>
+            </c:if>
             <div class="control-group">
                 <label class="control-label">账号</label>
                 <div class="controls">
