@@ -250,4 +250,14 @@ public class UserService {
             throw new ServiceException("原始密码错误");
         }
     }
+
+    /**
+     * 设置用户的头像
+     * @param user
+     * @param fileKey
+     */
+    public void updateAvatar(User user, String fileKey) {
+        user.setAvatar(fileKey);
+        userDao.update(user);
+    }
 }

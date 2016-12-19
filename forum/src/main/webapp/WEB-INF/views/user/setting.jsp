@@ -6,6 +6,7 @@
     <title>Title</title>
     <link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/js/uploader/webuploader.css">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -80,7 +81,7 @@
             <div class="control-group">
                 <label class="control-label">当前头像</label>
                 <div class="controls">
-                    <img src="http://ohwnpkfcx.bkt.clouddn.com/${sessionScope.curr_user.avatar}?imageView2/1/w/40/h/40" class="img-circle" alt="">
+                    <img id="avatar" src="http://ohwnpkfcx.bkt.clouddn.com/${sessionScope.curr_user.avatar}?imageView2/1/w/40/h/40" class="img-circle" alt="">
                 </div>
             </div>
             <hr>
@@ -90,7 +91,7 @@
                 <li>如果你是男的，请不要用女人的照片作为头像，这样可能会对其他会员产生误导</li>
             </ul>
             <div class="form-actions">
-                <button class="btn btn-primary">上传新头像</button>
+                <div id="picker">上传新头像</div>
             </div>
 
 
@@ -103,6 +104,46 @@
 <!--container end-->
 <script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/uploader/webuploader.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
+<script>
+    $(function(){
+        //头像上传
+        var uploder = WebUploader.create({
+            swf : "/static/js/uploader/Uploader.swf",
+            server: "http://up-z1.qiniu.com/",
+            pick: '#picker',
+            auto : true,
+            fileVal:'file',
+            formData:{'token':'${token}'},
+            /*accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/!*'
+            }*/
+        });
+
+        //上传成功
+        uploder.on('uploadSuccess',function(file,data){
+            var fileKey = data.key;
+            //修改数据库中的值
+            $.post("/setting?action=avatar",{'fileKey':fileKey})
+                .done(function (data) {
+                    if(data.state == 'success') {
+                        var url = "http://ohwnpkfcx.bkt.clouddn.com/"+fileKey;
+                        $("#avatar").attr("src",url+"?imageView2/1/w/40/h/40");
+                        $("#navbar_avatar").attr("src",url+"?imageView2/1/w/20/h/20");
+                    }
+                }).error(function(){
+                    alert("头像设置失败");
+                });
+        });
+        //上传失败
+        uploder.on('uploadError',function(){
+            alert("上传失败,请稍后再试");
+        });
+
+    });
+</script>
 </body>
 </html>
