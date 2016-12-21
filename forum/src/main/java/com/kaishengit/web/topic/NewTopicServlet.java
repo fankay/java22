@@ -5,7 +5,10 @@ import com.kaishengit.entity.Node;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.entity.User;
 import com.kaishengit.service.TopicService;
+import com.kaishengit.util.Config;
 import com.kaishengit.web.BaseServlet;
+import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,9 +27,15 @@ public class NewTopicServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Auth auth = Auth.create(Config.get("qiniu.ak"),Config.get("qiniu.sk"));
+        StringMap stringMap = new StringMap();
+        stringMap.put("returnBody","{ \"success\": true,\"file_path\": \""+Config.get("qiniu.domain")+"${key}\"}");
+        String token = auth.uploadToken(Config.get("qiniu.bucket"),null,3600,stringMap);
+
         //获取nodelist到jsp页面
         List<Node> nodelist = service.findAllNode();
         req.setAttribute("nodeList",nodelist);
+        req.setAttribute("token",token);
         forward("topic/newTopic",req,resp);
     }
 

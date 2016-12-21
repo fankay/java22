@@ -45,7 +45,6 @@ $(function(){
                 },
                 success:function(data){
                     if(data.state == 'success') {
-                        alert("登录成功");
                         var url = getParameterByName("redirect");
                         if(url) {
                             window.location.href = url;
