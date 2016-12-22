@@ -36,6 +36,8 @@ public class TopicService {
         topic.setContent(content);
         topic.setNodeid(nodeid);
         topic.setUserid(userId);
+        //暂时设置最后回复时间为当前时间
+        topic.setLastreplytime(new Timestamp(new DateTime().getMillis()));
         Integer topicId = topicDao.save(topic);
         topic.setId(topicId);
 
@@ -92,5 +94,9 @@ public class TopicService {
             throw new ServiceException("回复的主题不存在或被删除");
         }
 
+    }
+
+    public List<Reply> findReplyListByTopicId(String topicId) {
+        return replyDao.findListByTopicId(topicId);
     }
 }
