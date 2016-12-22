@@ -1,6 +1,7 @@
 package com.kaishengit.web.topic;
 
 import com.kaishengit.entity.User;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.TopicService;
 import com.kaishengit.util.StringUtils;
 import com.kaishengit.web.BaseServlet;
@@ -26,7 +27,11 @@ public class NewReplyServlet extends BaseServlet {
 
         TopicService service = new TopicService();
         if (StringUtils.isNumeric(topicId)){
-            service.addTopicReply(topicId,content,user);
+            try {
+                service.addTopicReply(topicId, content, user);
+            }catch(ServiceException e){
+                resp.sendError(404,e.getMessage());
+            }
         }else{
             resp.sendError(404);
         }

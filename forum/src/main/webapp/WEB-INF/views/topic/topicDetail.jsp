@@ -16,6 +16,14 @@
         .simditor .simditor-body {
             min-height: 100px;
         }
+        .topic-body img {
+            width: 200px;
+        }
+        pre {
+            padding: 0px;
+            border: 0px;
+            background-color: transparent;
+        }
     </style>
 </head>
 <body>

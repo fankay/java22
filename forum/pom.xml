@@ -116,6 +116,12 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>${qiniu-version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.3</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>forum_22</finalName>

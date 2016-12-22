@@ -4,6 +4,7 @@ import com.kaishengit.dto.JsonResult;
 import com.kaishengit.entity.Node;
 import com.kaishengit.entity.Topic;
 import com.kaishengit.entity.User;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.service.TopicService;
 import com.kaishengit.util.Config;
 import com.kaishengit.web.BaseServlet;
@@ -45,8 +46,15 @@ public class NewTopicServlet extends BaseServlet {
         String content = req.getParameter("content");
         String nodeid = req.getParameter("nodeid");
         User user = (User)req.getSession().getAttribute("curr_user");
-        Topic topic = service.addNewTopic(title, content, Integer.valueOf(nodeid), user.getId());
-        JsonResult jsonResult = new JsonResult(topic);
+        Topic topic = null;
+        JsonResult jsonResult = null;
+        try {
+            topic = service.addNewTopic(title, content, Integer.valueOf(nodeid), user.getId());
+            jsonResult = new JsonResult(topic);
+        }catch (ServiceException e){
+            jsonResult = new JsonResult(e.getMessage());
+        }
+
         renderJSON(jsonResult,resp);
     }
 }
