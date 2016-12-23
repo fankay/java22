@@ -1,13 +1,7 @@
 package com.kaishengit.service;
 
-import com.kaishengit.dao.NodeDao;
-import com.kaishengit.dao.ReplyDao;
-import com.kaishengit.dao.TopicDao;
-import com.kaishengit.dao.UserDao;
-import com.kaishengit.entity.Node;
-import com.kaishengit.entity.Reply;
-import com.kaishengit.entity.Topic;
-import com.kaishengit.entity.User;
+import com.kaishengit.dao.*;
+import com.kaishengit.entity.*;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.StringUtils;
@@ -24,6 +18,8 @@ public class TopicService {
     UserDao userDao = new UserDao();
     NodeDao nodeDao = new NodeDao();
     ReplyDao replyDao = new ReplyDao();
+    FavDao favDao = new FavDao();
+
     public List<Node> findAllNode(){
         List<Node> nodeList = nodeDao.findAllNodes();
         return nodeList;
@@ -63,10 +59,6 @@ public class TopicService {
                 topic.setUser(user);
                 topic.setNode(node);
 
-                //更新topic表中的clicknum字段
-                topic.setClicknum(topic.getClicknum() + 1);
-                topicDao.update(topic);
-
                 return topic;
             }else{
                 throw new ServiceException("该帖不存在或已被删除");
@@ -98,5 +90,46 @@ public class TopicService {
 
     public List<Reply> findReplyListByTopicId(String topicId) {
         return replyDao.findListByTopicId(topicId);
+    }
+
+    public void updateTopicById(String title, String content, String nodeid, String topicId) {
+        Topic topic = topicDao.findTopicById(topicId);
+        if( topic.isEdit() ){
+            topic.setTitle(title);
+            topic.setContent(content);
+            topic.setNodeid(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+        }else{
+            throw new ServiceException("该帖已经不可编辑");
+        }
+    }
+
+    public Fav findFavByUserIdAndTopicId(String topicId, User user) {
+       return favDao.findByTopicIdAndUserId(user.getId(),Integer.valueOf(topicId));
+    }
+
+    public void favTopic(User user, String topicId) {
+        Fav fav = new Fav();
+        fav.setTopicid(Integer.valueOf(topicId));
+        fav.setUserid(user.getId());
+        favDao.addFav(fav);
+
+        //topic表收藏字段 +1
+        Topic topic = topicDao.findTopicById(topicId);
+        topic.setFavnum(topic.getFavnum() + 1);
+        topicDao.update(topic);
+    }
+
+    public void unfavTopic(User user, String topicId) {
+        favDao.deleteFav(user.getId(),topicId);
+
+        //topic表收藏字段 -1
+        Topic topic = topicDao.findTopicById(topicId);
+        topic.setFavnum(topic.getFavnum() - 1);
+        topicDao.update(topic);
+    }
+
+    public void updateTopic(Topic topic) {
+        topicDao.update(topic);
     }
 }
