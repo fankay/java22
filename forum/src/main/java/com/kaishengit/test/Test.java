@@ -18,6 +18,11 @@ public class Test {
         time2.getMillis();
         System.out.println("time2 = " + time2.getMillis());
 
+        String s = "/topicEdit?topicId=32&";
+        System.out.println(s.substring(2,s.length()-1));
+
+
+
     }
 
 

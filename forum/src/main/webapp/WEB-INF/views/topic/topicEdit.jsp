@@ -9,7 +9,8 @@
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/js/editer/styles/simditor.css">
-    <link rel="stylesheet" href="/static/css/simditor-emoji.css">
+    <link rel="stylesheet" href="/static/css/simditor-emoji.css"><%--
+    <link href="//cdn.bootcss.com/simditor/2.3.6/styles/simditor.min.css" rel="stylesheet">--%>
 </head>
 <body>
 <%@include file="../include/navbar.jsp"%>
@@ -25,7 +26,7 @@
             <input name="topicId" id="topicId" type="hidden" value="${topic.id}">
             <input name="title" id="title" type="text" style="width: 100%;box-sizing: border-box;height: 30px" value="${topic.title}">
             <label class="control-label">正文</label>
-            <textarea name="content" id="editor">${topic.content}</textarea>
+            <textarea name="content1" id="editor">${topic.content}</textarea>
 
             <select name="nodeid" id="nodeid" style="margin-top:15px;">
                 <option value="">请选择节点</option>
@@ -44,13 +45,15 @@
     <!--box end-->
 </div>
 <!--container end-->
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<%--<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>--%>
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/editer/scripts/module.min.js"></script>
 <script src="/static/js/editer/scripts/hotkeys.min.js"></script>
 <script src="/static/js/editer/scripts/uploader.min.js"></script>
 <script src="/static/js/editer/scripts/simditor.min.js"></script>
-<script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/simditor-emoji.js"></script>
+<%--<script src="//cdn.bootcss.com/simditor/2.3.6/lib/simditor.min.js"></script>--%>
 <script>
     $(function(){
         var editor = new Simditor({

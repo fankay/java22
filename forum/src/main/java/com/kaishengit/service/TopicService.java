@@ -1,13 +1,16 @@
 package com.kaishengit.service;
 
+import com.google.common.collect.Maps;
 import com.kaishengit.dao.*;
 import com.kaishengit.entity.*;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
+import com.kaishengit.util.Page;
 import com.kaishengit.util.StringUtils;
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -94,11 +97,22 @@ public class TopicService {
 
     public void updateTopicById(String title, String content, String nodeid, String topicId) {
         Topic topic = topicDao.findTopicById(topicId);
+        Integer lastNodeId = topic.getNodeid();
         if( topic.isEdit() ){
+            //更新topic
             topic.setTitle(title);
             topic.setContent(content);
             topic.setNodeid(Integer.valueOf(nodeid));
             topicDao.update(topic);
+
+            //更新node表，使得原來的node的topicnum -1
+            Node lastNode = nodeDao.findNodeById(lastNodeId);
+            lastNode.setTopicnum(lastNode.getTopicnum() -1);
+            nodeDao.update(lastNode);
+            //更新node表，使得新的node的topicnum + 1
+            Node newNode = nodeDao.findNodeById(Integer.valueOf(nodeid));
+            newNode.setTopicnum(newNode.getTopicnum() + 1);
+            nodeDao.update(newNode);
         }else{
             throw new ServiceException("该帖已经不可编辑");
         }
@@ -131,5 +145,25 @@ public class TopicService {
 
     public void updateTopic(Topic topic) {
         topicDao.update(topic);
+    }
+
+    public Page<Topic> findAllTopics(String nodeid, Integer pageNo) {
+        HashMap<String,Object> map = Maps.newHashMap();
+        int count = 0;
+        if (StringUtils.isEmpty(nodeid)){
+            count = topicDao.count();
+        }else{
+            count = topicDao.count(nodeid);
+        }
+        /*Node node = nodeDao.findNodeById(Integer.valueOf(nodeid));
+        count = node.getTopicnum();*/
+        Page<Topic> topicPage = new Page<>(count,pageNo);
+        map.put("nodeid",nodeid);
+        map.put("start",topicPage.getStart());
+        map.put("pageSize",topicPage.getPageSize());
+
+        List<Topic> topicList = topicDao.findAll(map);
+        topicPage.setItems(topicList);
+        return topicPage;
     }
 }
