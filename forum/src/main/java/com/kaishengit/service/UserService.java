@@ -3,17 +3,21 @@ package com.kaishengit.service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.kaishengit.dao.LoginLogDao;
+import com.kaishengit.dao.NotifyDao;
 import com.kaishengit.dao.UserDao;
 import com.kaishengit.entity.LoginLog;
+import com.kaishengit.entity.Notify;
 import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
 import com.kaishengit.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +30,7 @@ public class UserService {
 
     private UserDao userDao = new UserDao();
     private LoginLogDao loginLogDao = new LoginLogDao();
-
+    private NotifyDao notifyDao = new NotifyDao();
     //发送激活邮件的TOKEN缓存
     private static Cache<String,String> cache = CacheBuilder.newBuilder()
             .expireAfterWrite(6, TimeUnit.HOURS)
@@ -84,7 +88,8 @@ public class UserService {
             public void run() {
                 //给用户发送激活邮件
                 String uuid = UUID.randomUUID().toString();
-                String url = "http://bbs.kaishengit.com/user/active?_="+uuid;
+                String url = "http://localhost/user/active?_="+uuid;
+//                String url = "http://bbs.kaishengit.com/user/active?_="+uuid;
                 //放入缓存等待6个小时
                 cache.put(uuid,username);
 
@@ -260,5 +265,21 @@ public class UserService {
     public void updateAvatar(User user, String fileKey) {
         user.setAvatar(fileKey);
         userDao.update(user);
+    }
+
+    public List<Notify> findNotifyListByUser(User user) {
+       return notifyDao.findByUserId(user.getId());
+
+    }
+
+    public void updateNotifyStateByIds(String ids) {
+        String idArray[] = ids.split(",");
+        for (int i= 0 ;i <idArray.length;i++ ){
+            Notify notify = notifyDao.findById(idArray[i]);
+            notify.setState(Notify.NOTIFY_STATE_READ);
+            notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
+            notifyDao.update(notify);
+        }
+
     }
 }

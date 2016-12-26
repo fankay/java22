@@ -25,7 +25,7 @@
         <init-param>
             <param-name>validateUrl</param-name>
             <!-- /setting,/post/new,/notifiy,... -->
-            <param-value>/setting,/newTopic,/topicEdit</param-value>
+            <param-value>/setting,/newTopic,/topicEdit,/notify</param-value>
         </init-param>
     </filter>
     <filter-mapping>

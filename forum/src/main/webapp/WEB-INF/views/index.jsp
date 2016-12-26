@@ -58,7 +58,7 @@
 
 <script src="/static/js/jquery-1.11.3.min.js"></script>
 <script src="/static/js/jquery.twbsPagination.min.js"></script>
-
+<script src="/static/js/user/notify.js"></script>
 <script>
     $(function(){
         $("#pagination").twbsPagination({
