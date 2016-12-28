@@ -27,6 +27,11 @@
             <!-- /setting,/post/new,/notifiy,... -->
             <param-value>/setting,/newTopic,/topicEdit,/notify</param-value>
         </init-param>
+        <init-param>
+            <param-name>validateAdminUrl</param-name>
+            <!-- /setting,/post/new,/notifiy,... -->
+            <param-value>/admin/topic,/admin/home,/admin/user,/admin/node,/admin/nodeUpdate,/admin/nodeDel</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>loginFilter</filter-name>

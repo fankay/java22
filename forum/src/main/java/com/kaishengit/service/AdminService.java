@@ -43,14 +43,14 @@ public class AdminService {
         Topic topic = topicDao.findTopicById(id);
         if(topic != null ){
             //2.根据nodeid 获取node
-            Node node = null;//nodeDao.findNodeById(topic.getNodeid());
+            Node node = nodeDao.findNodeById(topic.getNodeid());
             //3.更新node
             node.setTopicnum(node.getTopicnum() - 1);
             nodeDao.update(node);
             //删除主题
             topicDao.delById(id);
         }else {
-            throw  new ServiceException("该主题不存在或已删除");
+            throw new ServiceException("该主题不存在或已删除");
         }
 
 

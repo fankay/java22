@@ -26,4 +26,16 @@ public class NodeDao {
         DbHelp.update(sql,node.getTopicnum(),node.getNodename(),node.getId());
 
     }
+
+    public Node findNodeByName(String nodeName) {
+        String sql = "select * from t_node where nodename = ?";
+        return DbHelp.query(sql,new BeanHandler<>(Node.class),nodeName);
+
+
+    }
+
+    public void del(String id) {
+        String sql = "delete from t_node where id = ?";
+        DbHelp.update(sql,id);
+    }
 }

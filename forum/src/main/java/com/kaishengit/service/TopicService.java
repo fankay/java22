@@ -177,4 +177,19 @@ public class TopicService {
         topicPage.setItems(topicList);
         return topicPage;
     }
+
+    public Node findNodeById(String nodeId) {
+        if (StringUtils.isNumeric(nodeId)){
+            Node node = nodeDao.findNodeById(Integer.valueOf(nodeId));
+            if (node != null){
+                return node;
+            }else{
+                throw new ServiceException("此节点不存在");
+            }
+
+        }else{
+            throw new ServiceException("参数异常");
+        }
+
+    }
 }
