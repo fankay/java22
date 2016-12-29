@@ -11,13 +11,16 @@ import com.kaishengit.entity.User;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.util.Config;
 import com.kaishengit.util.EmailUtil;
+import com.kaishengit.util.Page;
 import com.kaishengit.util.StringUtils;
+import com.kaishengit.vo.UserVo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -282,4 +285,41 @@ public class UserService {
         }
 
     }
+
+    public Page<UserVo> findUserList(Integer pageNo) {
+        Integer count = userDao.count();
+        Page<UserVo> page = new Page<>(count,pageNo);
+        List<User> userList =  userDao.findAllUsers(page);
+        List<UserVo> userVoList = new ArrayList<>();
+
+       /* for (User user:userList){
+            UserVo vo = new UserVo();
+            vo.setUserId(user.getId());
+            vo.setUsername(user.getUsername());
+            vo.setUserState(String.valueOf(user.getState()));
+            vo.setCreatetime(String.valueOf(user.getCreateTime()));
+            LoginLog loginLog = loginLogDao.findLastLogin(user.getId());
+            if(loginLog != null){
+                vo.setLoginIP(loginLog.getIp());
+                vo.setLastLoginTime(String.valueOf(loginLog.getLoginTime()));
+            }
+            userVoList.add(vo);
+        }*/
+       for (User user:userList){
+           UserVo userVo = userDao.findUserVo(user.getId());
+           userVoList.add(userVo);
+       }
+        page.setItems(userVoList);
+        return page;
+    }
+
+    public void updateUserState(String userid, Integer userState) {
+        if(StringUtils.isNumeric(userid)){
+            User user = userDao.findById(Integer.valueOf(userid));
+            user.setState(userState);
+            userDao.update(user);
+        }else{
+            throw new ServiceException("参数异常");
+        }
+        }
 }

@@ -54,7 +54,12 @@ public class LoginFilter extends AbstractFilter {
                             Map.Entry me = (Map.Entry) it.next();
                             Object key = me.getKey();
                             Object value = me.getValue();
-                            String valString[] = (String[]) value;
+                            String[] valString = new String[1];
+                            if(value instanceof String[]){
+                                valString=(String[])value;
+                            }else{
+                                valString[0]=value.toString();
+                            }
                             String param = "";
                             for(int i=0;i<valString.length;i++){
                                 param = key + "=" + valString[i] +"&";

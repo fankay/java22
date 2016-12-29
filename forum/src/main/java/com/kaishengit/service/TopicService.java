@@ -114,18 +114,22 @@ public class TopicService {
             topic.setContent(content);
             topic.setNodeid(Integer.valueOf(nodeid));
             topicDao.update(topic);
-            if (lastNodeId != Integer.valueOf(nodeid)) {
-                //更新node表，使得原來的node的topicnum -1
-                Node lastNode = nodeDao.findNodeById(lastNodeId);
-                lastNode.setTopicnum(lastNode.getTopicnum() - 1);
-                nodeDao.update(lastNode);
-                //更新node表，使得新的node的topicnum + 1
-                Node newNode = nodeDao.findNodeById(Integer.valueOf(nodeid));
-                newNode.setTopicnum(newNode.getTopicnum() + 1);
-                nodeDao.update(newNode);
-            }
+            updatNode(lastNodeId,nodeid);
         }else{
             throw new ServiceException("该帖已经不可编辑");
+        }
+    }
+
+    private void updatNode(Integer lastNodeId,String nodeid) {
+        if (lastNodeId != Integer.valueOf(nodeid)) {
+            //更新node表，使得原來的node的topicnum -1
+            Node lastNode = nodeDao.findNodeById(lastNodeId);
+            lastNode.setTopicnum(lastNode.getTopicnum() - 1);
+            nodeDao.update(lastNode);
+            //更新node表，使得新的node的topicnum + 1
+            Node newNode = nodeDao.findNodeById(Integer.valueOf(nodeid));
+            newNode.setTopicnum(newNode.getTopicnum() + 1);
+            nodeDao.update(newNode);
         }
     }
 
@@ -191,5 +195,30 @@ public class TopicService {
             throw new ServiceException("参数异常");
         }
 
+    }
+
+    public void updateTopicNode(String topicid, String nodeid) {
+        if(StringUtils.isNumeric(topicid)&& StringUtils.isNumeric(nodeid)){
+            Topic topic = topicDao.findTopicById(topicid);
+            //更新topic的nodeid
+            topic.setNodeid(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+            //更新node表中的topicnum字段
+            updatNode(topic.getNodeid(),nodeid);
+        }else{
+            throw new ServiceException("参数异常");
+        }
+
+
+
+    }
+
+    public Page<TopicReplyCount> getTopicAndReplyNumByDayList(Integer pageNo) {
+        int count = topicDao.countTopicByDay();
+        Page<TopicReplyCount> page = new Page<>(count,pageNo);
+
+        List<TopicReplyCount> countLit =  topicDao.getTopicAndReplyNumList(page.getStart(),page.getPageSize());
+        page.setItems(countLit);
+        return page;
     }
 }
