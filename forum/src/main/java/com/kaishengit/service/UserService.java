@@ -143,7 +143,7 @@ public class UserService {
 
                 loginLogDao.save(log);
                 //拼装avatar的完整路径
-                user.setAvatar(Config.get("qiniu.domain") + user.getAvatar());
+                user.setAvatar(user.getAvatar());
                 logger.info("{}登录了系统，IP：{}",username,ip);
                 return user;
 
