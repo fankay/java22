@@ -37,7 +37,7 @@
             <div class="control-group">
                 <label class="control-label">密码</label>
                 <div class="controls">
-                    <input type="password" name="password">
+                    <input type="password" name="password" id="password">
                 </div>
             </div>
             <div class="control-group">
@@ -54,8 +54,6 @@
             </div>
 
         </form>
-
-
 
     </div>
     <!--box end-->
