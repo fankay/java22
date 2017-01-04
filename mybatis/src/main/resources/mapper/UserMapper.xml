@@ -7,13 +7,22 @@
     <select id="findById" parameterType="int" resultType="User">
         SELECT * FROM t_user WHERE id = #{id}
     </select>
+    
+    <select id="findAll" resultType="User">
+        SELECT * FROM t_user
+    </select>
 
-    <insert id="save" parameterType="User">
-        INSERT INTO t_user(username,password) VALUES (#{username},#{password})
+    <!--
+        useGeneratedKeys:true 表示使用自动增长的主键
+        keyProperty:id 将自动增长的主键赋值给parameterType对应类型的id属性
+    -->
+    <insert id="save" parameterType="User"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user(user_name,password) VALUES (#{userName},#{password})
     </insert>
     
     <update id="update" parameterType="User">
-        UPDATE t_user SET username = #{username},password=#{password} where id = #{id}
+        UPDATE t_user SET user_name = #{userName},password=#{password} where id = #{id}
     </update>
 
     <delete id="del" parameterType="int">

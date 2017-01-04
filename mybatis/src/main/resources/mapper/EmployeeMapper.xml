@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.EmployeeMapper">
+
+    <select id="findById" resultType="Employee">
+        SELECT
+            t_employee.id,empname,deptid,
+            t_dept.id as 'dept.id',deptname as 'dept.deptname'
+        FROM
+            t_employee
+        INNER JOIN t_dept ON t_employee.deptid = t_dept.id
+        WHERE
+            t_employee.id = #{id}
+    </select>
+
+    <select id="findByDeptId" resultType="com.kaishengit.pojo.Employee">
+        SELECT * FROM t_employee WHERE deptid = #{deptId}
+    </select>
+
+    <!--配置结果集映射-->
+    <!--<resultMap id="empMap" type="Employee">
+        <id column="id" property="id"/>
+        <result column="empname" property="empname"/>
+        <result column="deptid" property="deptid"/>
+        <association property="dept" javaType="Dept" column="deptid">
+            <id property="id" column="deptid"></id>
+            <result property="deptname" column="deptname"></result>
+        </association>
+    </resultMap>-->
+</mapper>

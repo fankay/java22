@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 public class MyBatisTestCase {
 
@@ -55,7 +56,7 @@ public class MyBatisTestCase {
         SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
 
         User user = new User();
-        user.setUsername("mybatis");
+        user.setUserName("mybatis");
         user.setPassword("109876");
 
         sqlSession.insert("com.kaishengit.mapper.UserMapper.save",user);
@@ -70,7 +71,7 @@ public class MyBatisTestCase {
         SqlSession session = SqlSessionFactoryUtil.getSqlSession(true);
 
         User user = session.selectOne("com.kaishengit.mapper.UserMapper.findById",58);
-        user.setUsername("Spring");
+        user.setUserName("Spring");
 
         session.update("com.kaishengit.mapper.UserMapper.update",user);
 
@@ -83,5 +84,19 @@ public class MyBatisTestCase {
         session.delete("com.kaishengit.mapper.UserMapper.del",58);
         session.close();
     }
+
+    @Test
+    public void findAll() {
+        SqlSession session = SqlSessionFactoryUtil.getSqlSession();
+
+        List<User> userList = session.selectList("com.kaishengit.mapper.UserMapper.findAll");
+        for(User user : userList) {
+            System.out.println(user);
+        }
+
+        session.close();
+    }
+
+
 
 }

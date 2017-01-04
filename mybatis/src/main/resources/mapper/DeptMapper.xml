@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.DeptMapper">
+
+
+    <select id="findById" resultMap="deptMap">
+        SELECT
+            t_employee.id,empname,deptid,deptname
+        FROM
+            t_employee
+        INNER JOIN t_dept ON t_employee.deptid = t_dept.id
+        WHERE
+            t_dept.id = #{id}
+    </select>
+
+    <resultMap id="deptMap" type="Dept">
+        <id column="deptid" property="id"/>
+        <result column="deptname" property="deptname"/>
+        <collection property="employeeList" ofType="Employee">
+            <id column="id" property="id"/>
+            <result column="empname" property="empname"/>
+            <result column="deptid" property="deptid"/>
+        </collection>
+    </resultMap>
+</mapper>

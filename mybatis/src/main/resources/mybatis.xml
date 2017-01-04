@@ -4,10 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <settings>
+        <!--
+            开启数据库列名下划线风格转换为驼峰命名法
+            例如 user_name -> userName
+                last_access_time -> lastAccessTime
+        -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
     <!--配置别名-->
     <typeAliases>
         <typeAlias type="com.kaishengit.pojo.User" alias="User"/>
+        <typeAlias type="com.kaishengit.pojo.Employee" alias="Employee"/>
+        <typeAlias type="com.kaishengit.pojo.Dept" alias="Dept"/>
     </typeAliases>
+
 
 
     <!--配置数据库环境-->
@@ -31,6 +43,8 @@
     <!--加载Mapper.xml文件-->
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+        <mapper resource="mapper/DeptMapper.xml"/>
     </mappers>
 
 </configuration>
