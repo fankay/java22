@@ -19,6 +19,19 @@
         SELECT * FROM t_employee WHERE deptid = #{deptId}
     </select>
 
+    <select id="findAll" resultMap="allMap">
+        SELECT * FROM t_employee
+    </select>
+
+    <resultMap id="allMap" type="Employee">
+        <id column="id" property="id"/>
+        <result column="empname" property="empname"/>
+        <result column="deptid" property="deptid"/>
+        <association property="dept" javaType="Dept" column="deptid"
+                     select="com.kaishengit.mapper.DeptMapper.findById"/>
+    </resultMap>
+
+
     <!--配置结果集映射-->
     <!--<resultMap id="empMap" type="Employee">
         <id column="id" property="id"/>

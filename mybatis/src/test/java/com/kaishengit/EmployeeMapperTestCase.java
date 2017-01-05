@@ -7,6 +7,8 @@ import com.kaishengit.util.SqlSessionFactoryUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import java.util.List;
+
 public class EmployeeMapperTestCase {
 
     @Test
@@ -22,5 +24,23 @@ public class EmployeeMapperTestCase {
 
         session.close();
 
+    }
+
+    @Test
+    public void findAll() {
+        SqlSession session = SqlSessionFactoryUtil.getSqlSession();
+
+        EmployeeMapper employeeMapper = session.getMapper(EmployeeMapper.class);
+        List<Employee> employeeList = employeeMapper.findAll();
+
+        for(Employee employee : employeeList) {
+            System.out.println(employee);
+            Dept dept = employee.getDept();
+            System.out.println(dept);
+            System.out.println("-----------------------------");
+        }
+
+
+        session.close();
     }
 }

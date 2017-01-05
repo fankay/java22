@@ -10,4 +10,6 @@ public interface EmployeeMapper {
 
     List<Employee> findByDeptId(Integer deptId);
 
+    List<Employee> findAll();
+
 }

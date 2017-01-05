@@ -12,6 +12,47 @@
         SELECT * FROM t_user
     </select>
 
+    <select id="findByUserNameAndPassword" resultType="com.kaishengit.pojo.User">
+      SELECT * FROM t_user where user_name=#{name} and password=#{pwd}
+    </select>
+
+    <select id="findByParam" resultType="com.kaishengit.pojo.User">
+          SELECT * FROM t_user
+          <trim prefix="where" prefixOverrides="and|or">
+              <if test="username != null and username != ''">
+                  user_name = #{username}
+              </if>
+              <if test="password != null and password != ''">
+                  and password= #{password}
+              </if>
+          </trim>
+          <!--<where>
+              <if test="username != null and username != ''">
+                  user_name = #{username}
+              </if>
+              <if test="password != null and password != ''">
+                  and password= #{password}
+              </if>
+          </where>-->
+          <!--<choose>
+              <when test="username != null and username != ''">
+                  user_name = #{username}
+              </when>
+              <when test="password != null and password != ''">
+                  password= #{password}
+              </when>
+              <otherwise>
+
+              </otherwise>
+          </choose>-->
+    </select>
+    <select id="findByIds" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
     <!--
         useGeneratedKeys:true 表示使用自动增长的主键
         keyProperty:id 将自动增长的主键赋值给parameterType对应类型的id属性
@@ -20,7 +61,14 @@
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_user(user_name,password) VALUES (#{userName},#{password})
     </insert>
-    
+    <insert id="batchSave">
+        INSERT INTO t_user(user_name,password)
+        VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.userName},#{user.password})
+        </foreach>
+    </insert>
+
     <update id="update" parameterType="User">
         UPDATE t_user SET user_name = #{userName},password=#{password} where id = #{id}
     </update>

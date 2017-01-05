@@ -4,8 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.DeptMapper">
 
+    <select id="findById" resultType="Dept">
+        SELECT * from t_dept where id = #{id}
+    </select>
 
-    <select id="findById" resultMap="deptMap">
+    <select id="findAll" resultMap="allMap">
+        SELECT * FROM t_dept
+    </select>
+
+    <resultMap id="allMap" type="Dept">
+        <id column="id" property="id"/>
+        <result column="deptname" property="deptname"/>
+        <collection property="employeeList" ofType="Employee" column="id"
+                    select="com.kaishengit.mapper.EmployeeMapper.findByDeptId"/>
+    </resultMap>
+
+
+    <!--<select id="findById" resultMap="deptMap">
         SELECT
             t_employee.id,empname,deptid,deptname
         FROM
@@ -23,5 +38,5 @@
             <result column="empname" property="empname"/>
             <result column="deptid" property="deptid"/>
         </collection>
-    </resultMap>
+    </resultMap>-->
 </mapper>

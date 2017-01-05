@@ -42,4 +42,24 @@ public class DeptMapperTestCase {
 
         session.close();
     }
+
+    @Test
+    public void findAll() {
+        SqlSession session = SqlSessionFactoryUtil.getSqlSession();
+
+        DeptMapper deptMapper = session.getMapper(DeptMapper.class);
+        List<Dept> deptList = deptMapper.findAll();
+
+        for(Dept dept : deptList) {
+            System.out.println(dept);
+            List<Employee> employeeList = dept.getEmployeeList();
+            for(Employee employee : employeeList) {
+                System.out.println(employee);
+            }
+            System.out.println("----------------------------------");
+        }
+
+
+        session.close();
+    }
 }
