@@ -45,6 +45,8 @@
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/EmployeeMapper.xml"/>
         <mapper resource="mapper/DeptMapper.xml"/>
+
+        <mapper class="com.kaishengit.mapper.AccountMapper"/>
     </mappers>
 
 </configuration>

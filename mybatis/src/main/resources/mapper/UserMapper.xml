@@ -4,7 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.UserMapper">
 
-    <select id="findById" parameterType="int" resultType="User">
+    <cache/>
+    <!--
+        将select节点的useCache属性设置为false表示该查询结果不会放入到缓存中
+    -->
+    <select id="findById" useCache="false" parameterType="int" resultType="User">
         SELECT * FROM t_user WHERE id = #{id}
     </select>
     
@@ -56,9 +60,11 @@
     <!--
         useGeneratedKeys:true 表示使用自动增长的主键
         keyProperty:id 将自动增长的主键赋值给parameterType对应类型的id属性
+        flushCache:false 不刷新缓存
     -->
     <insert id="save" parameterType="User"
-            useGeneratedKeys="true" keyProperty="id">
+            useGeneratedKeys="true" keyProperty="id"
+            flushCache="false">
         INSERT INTO t_user(user_name,password) VALUES (#{userName},#{password})
     </insert>
     <insert id="batchSave">

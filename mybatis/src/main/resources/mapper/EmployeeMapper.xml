@@ -19,7 +19,7 @@
         SELECT * FROM t_employee WHERE deptid = #{deptId}
     </select>
 
-    <select id="findAll" resultMap="allMap">
+   <!-- <select id="findAll" resultMap="allMap">
         SELECT * FROM t_employee
     </select>
 
@@ -29,7 +29,7 @@
         <result column="deptid" property="deptid"/>
         <association property="dept" javaType="Dept" column="deptid"
                      select="com.kaishengit.mapper.DeptMapper.findById"/>
-    </resultMap>
+    </resultMap>-->
 
 
     <!--配置结果集映射-->

@@ -8,7 +8,7 @@
         SELECT * from t_dept where id = #{id}
     </select>
 
-    <select id="findAll" resultMap="allMap">
+    <!--<select id="findAll" resultMap="allMap">
         SELECT * FROM t_dept
     </select>
 
@@ -17,7 +17,7 @@
         <result column="deptname" property="deptname"/>
         <collection property="employeeList" ofType="Employee" column="id"
                     select="com.kaishengit.mapper.EmployeeMapper.findByDeptId"/>
-    </resultMap>
+    </resultMap>-->
 
 
     <!--<select id="findById" resultMap="deptMap">

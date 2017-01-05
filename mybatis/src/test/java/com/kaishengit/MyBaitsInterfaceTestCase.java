@@ -98,5 +98,33 @@ public class MyBaitsInterfaceTestCase {
         sqlSession.commit();
     }
 
+    @Test
+    public void findByCache() {
+        //一级缓存：同一个SqlSession中（默认开启）
+        User user = userMapper.findById(1);
+        user = userMapper.findById(1);
+        user = userMapper.findById(1);
+
+        System.out.println(user);
+    }
+
+    @Test
+    public void findByCache2() {
+        //二级缓存（默认关闭）同一个SqlSessionFactory中
+
+        SqlSession sqlSession = SqlSessionFactoryUtil.getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.findById(1);
+        System.out.println(user);
+        sqlSession.close();
+
+        SqlSession sqlSession2 = SqlSessionFactoryUtil.getSqlSession();
+        UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
+        user = userMapper2.findById(1);
+        System.out.println(user);
+        sqlSession2.close();
+
+
+    }
 
 }
