@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        ·id: 容器内唯一
+        ·class：被管理bean的完全限定名
+        ·放入Spring容器的Bean，默认都是单例的 scope="singleton"
+        ·scope="prototype" 每次获取的都是不同的对象实例
+        ·Bean的对象默认会在Spring容器启动时创建。如果Bean的Scope值为prototype，那对象会在
+        调用时创建;如果Bean的Scope为singleton时，将lazy-init的属性设置true，那么对象也会在
+        调用时创建
+    -->
+    <bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
+    <!--<bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl" lazy-init="true"/>-->
+
+    <!--<bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"
+          scope="prototype"/>-->
+    <!--bean的别名-->
+    <!--<alias name="userDaoImpl" alias="userDao"/>-->
+
+</beans>
