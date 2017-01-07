@@ -1,23 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <!--
-        ·id: 容器内唯一
-        ·class：被管理bean的完全限定名
-        ·放入Spring容器的Bean，默认都是单例的 scope="singleton"
-        ·scope="prototype" 每次获取的都是不同的对象实例
-        ·Bean的对象默认会在Spring容器启动时创建。如果Bean的Scope值为prototype，那对象会在
-        调用时创建;如果Bean的Scope为singleton时，将lazy-init的属性设置true，那么对象也会在
-        调用时创建
-    -->
-    <bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"/>
-    <!--<bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl" lazy-init="true"/>-->
 
-    <!--<bean id="userDaoImpl" class="com.kaishengit.dao.impl.UserDaoImpl"
-          scope="prototype"/>-->
-    <!--bean的别名-->
-    <!--<alias name="userDaoImpl" alias="userDao"/>-->
+    <bean id="userDao" class="com.kaishengit.dao.impl.UserDaoImpl"/>
+
+    <!--
+        autowire: constructor 先根据构造方法参数的名称去Spring中找被注入的对象，
+        如果找不到再根据构造方法参数的类型去Spring中找被注入的对象
+    -->
+    <bean id="userService"
+          class="com.kaishengit.service.impl.UserServiceImpl" autowire="constructor"/>
+
+
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">-->
+        <!--<constructor-arg name="userDao" ref="userDao"/>-->
+        <!--<constructor-arg name="name" value="Jack"/>-->
+        <!--根据构造方法参数的索引，从0开始-->
+        <!--<constructor-arg index="0" ref="userDao"/>-->
+        <!--根据构造方法参数的类型：不适合有多个参数类型相同的情况-->
+        <!--<constructor-arg type="com.kaishengit.dao.UserDao" ref="userDao"/>-->
+        <!--根据构造方法参数的名称-->
+        <!--<constructor-arg name="userDao" ref="userDao"/>-->
+    <!--</bean>-->
+
+<!--
+
+    <bean id="userService"
+          class="com.kaishengit.service.impl.UserServiceImpl" p:userDao-ref="userDao"/>
+-->
+
+
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="name" value="Alex"/>
+        <property name="age" value="23"/>
+        <property name="list">
+            <list>
+                <value>A1</value>
+                <value>A2</value>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>34.45</value>
+                <value>78.908</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="k1" value="v1"/>
+                <entry key="k2" value="v2"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">v1</prop>
+                <prop key="p2">v2</prop>
+            </props>
+        </property>
+    </bean>-->
+
+
+
+
+
+
+
+
+
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">-->
+        <!--<property name="userDao" ref="userDao"/>-->
+        <!--<property name="userDao">
+            <bean class="com.kaishengit.dao.impl.UserDaoImpl"/>
+        </property>-->
+        <!--<property name="userDao" ref="userDao"/>-->
+        <!--<property name="userDao">
+            <ref bean="userDao"/>
+        </property>-->
+    <!--</bean>-->
+
 
 </beans>
