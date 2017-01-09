@@ -7,11 +7,7 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
-   /* public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }*/
-
-    public UserServiceImpl(UserDao userDao) {
+    public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -24,5 +20,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update() {
         userDao.update();
+    }
+
+    public int getNum() {
+        System.out.println("getNum method...");
+        if(1==1) {
+            throw new RuntimeException("故意引发的异常");
+        }
+        return 100;
     }
 }

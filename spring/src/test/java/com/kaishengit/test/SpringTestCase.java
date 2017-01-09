@@ -15,8 +15,9 @@ public class SpringTestCase {
         ApplicationContext applicationContext =
                 new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        UserService userService = applicationContext.getBean("userService", UserServiceImpl.class);
+        UserService userService = (UserService) applicationContext.getBean("userService");
         userService.save();
+        userService.getNum();
 
     }
 
