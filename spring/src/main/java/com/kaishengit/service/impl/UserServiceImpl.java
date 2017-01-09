@@ -2,15 +2,23 @@ package com.kaishengit.service.impl;
 
 import com.kaishengit.dao.UserDao;
 import com.kaishengit.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.inject.Inject;
+
+//@Service
 public class UserServiceImpl implements UserService {
 
+    //@Autowired
+    //@Resource
+    //@Inject
     private UserDao userDao;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-
 
     @Override
     public void save() {
@@ -24,9 +32,6 @@ public class UserServiceImpl implements UserService {
 
     public int getNum() {
         System.out.println("getNum method...");
-        if(1==1) {
-            throw new RuntimeException("故意引发的异常");
-        }
         return 100;
     }
 }

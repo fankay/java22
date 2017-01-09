@@ -3,38 +3,19 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="userDao" class="com.kaishengit.dao.impl.UserDaoImpl"/>
+    <!--基于注解的Bean管理和IOC-->
+    <context:component-scan base-package="com.kaishengit"/>
 
-    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
-        <property name="userDao" ref="userDao"/>
-    </bean>
-
-    <!--通知类-->
-    <bean id="myAspect" class="com.kaishengit.aop.MyAspect"/>
-    <aop:config>
-        <!--
-            ref:引用通知类
-        -->
-        <aop:aspect ref="myAspect">
-            <!--切入点表达式-->
-            <aop:pointcut id="pt" expression="execution(* com.kaishengit.service..*.*(..))"/>
-            <!--环绕通知-->
-            <aop:around method="aroundAdvice" pointcut-ref="pt"/>
-            <!--前置通知-->
-            <!--<aop:before method="beforeAdvice" pointcut-ref="pt"/>-->
-            <!--后置通知-->
-            <!--<aop:after-returning method="afterAdvice" pointcut-ref="pt" returning="result"/>-->
-            <!--异常通知-->
-            <!--<aop:after-throwing method="exceptionAdvice" pointcut-ref="pt" throwing="ex"/>-->
-            <!--最终通知-->
-            <!--<aop:after method="finallyAdvice" pointcut-ref="pt"/>-->
-        </aop:aspect>
-    </aop:config>
+    <!--基于注解的AOP-->
+    <aop:aspectj-autoproxy/>
 
 
 </beans>
