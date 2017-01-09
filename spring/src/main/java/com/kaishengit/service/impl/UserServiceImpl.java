@@ -1,37 +1,27 @@
 package com.kaishengit.service.impl;
 
 import com.kaishengit.dao.UserDao;
+import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.inject.Inject;
-
-//@Service
+@Service
 public class UserServiceImpl implements UserService {
-
-    //@Autowired
-    //@Resource
-    //@Inject
+    @Autowired
     private UserDao userDao;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    @Override
+    @Transactional(readOnly = true)
+    public void save(User user) throws Exception {
+        userDao.save(user);
+        userDao.save(user);
     }
 
     @Override
-    public void save() {
-        userDao.save();
-    }
-
-    @Override
-    public void update() {
-        userDao.update();
-    }
-
-    public int getNum() {
-        System.out.println("getNum method...");
-        return 100;
+    //@Transactional(readOnly = true)
+    public User findById(Integer id) {
+        return userDao.findById(id);
     }
 }

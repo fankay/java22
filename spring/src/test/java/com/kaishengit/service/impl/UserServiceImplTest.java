@@ -1,25 +1,31 @@
-package com.kaishengit.test;
+package com.kaishengit.service.impl;
 
-import com.kaishengit.Application;
+import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = "classpath:applicationContext.xml")
-@ContextConfiguration(classes = Application.class)
-public class SpringAnnoationTestCase {
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
+public class UserServiceImplTest {
 
     @Autowired
     private UserService userService;
 
     @Test
-    public void save() {
-        userService.save();
+    public void save() throws Exception {
+        User user = new User("Jack","123123");
+        userService.save(user);
+    }
+
+    @Test
+    public void findById() throws Exception {
+
     }
 
 }
