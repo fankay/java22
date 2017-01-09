@@ -32,7 +32,7 @@ public class Page<T> {
         if(totals % pageSize != 0) {
             totalPage++;
         }
-
+        totalPage = totalPage == 0 ?1:totalPage;
         if(pageNo > totalPage) {
             pageNo = totalPage;
         }
