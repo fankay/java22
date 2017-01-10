@@ -1,6 +1,6 @@
 package com.kaishengit.service.impl;
 
-import com.kaishengit.dao.UserDao;
+import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void save(User user) throws Exception {
-        userDao.save(user);
-        userDao.save(user);
+        userMapper.save(user);
     }
 
     @Override
-    //@Transactional(readOnly = true)
     public User findById(Integer id) {
-        return userDao.findById(id);
+        return userMapper.findById(id);
     }
 }

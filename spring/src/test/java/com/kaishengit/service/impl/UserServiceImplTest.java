@@ -25,7 +25,9 @@ public class UserServiceImplTest {
 
     @Test
     public void findById() throws Exception {
-
+        User user = userService.findById(1);
+        System.out.println(user);
+        assertNotNull(user);
     }
 
 }
