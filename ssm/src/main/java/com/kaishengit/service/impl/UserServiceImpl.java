@@ -1,6 +1,8 @@
 package com.kaishengit.service.impl;
 
+import com.kaishengit.mapper.RoleMapper;
 import com.kaishengit.mapper.UserMapper;
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+
     @Value("${password.salt}")
     private String salt;
 
@@ -51,5 +57,27 @@ public class UserServiceImpl implements UserService {
             user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
         }
         userMapper.update(user);
+    }
+
+    @Override
+    public List<Role> findAllRole() {
+        return roleMapper.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void saveNewUser(User user, Integer[] roleIds) {
+        //1.保存用户
+        userMapper.save(user);
+        //2.保存用户和角色的关系
+        if(roleIds != null) {
+            for(Integer roleId : roleIds) {
+                Role role = roleMapper.findById(roleId);
+                if(role != null) {
+                    //创建关系表记录
+                    roleMapper.saveNewUserRole(user.getId(),roleId);
+                }
+            }
+        }
     }
 }

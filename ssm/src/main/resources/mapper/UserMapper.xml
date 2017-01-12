@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.UserMapper">
-    <insert id="save">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into t_user(user_name,password) VALUES (#{userName},#{password})
     </insert>
     <update id="update">
@@ -20,9 +20,23 @@
         DELETE FROM t_user where id = #{id}
     </delete>
 
-    <select id="findAll" resultType="com.kaishengit.pojo.User">
-        select * from t_user
+    <select id="findAll" resultMap="UserMap">
+        select t_user.*,t_role.id as role_id,t_role.role_name,t_role.view_name from t_user
+        left join t_user_role on t_user.id = t_user_role.user_id
+        LEFT JOIN t_role on t_user_role.role_id = t_role.id
     </select>
+
+    <resultMap id="UserMap" type="User">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <collection property="roleList" ofType="Role">
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="roleName"/>
+            <result column="view_name" property="viewName"/>
+        </collection>
+    </resultMap>
+
     <select id="findById" resultType="com.kaishengit.pojo.User">
         SELECT * from t_user WHERE id = #{id}
     </select>

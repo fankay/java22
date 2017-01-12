@@ -1,6 +1,7 @@
 package com.kaishengit.controller;
 
 import com.kaishengit.exception.NotFoundException;
+import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.GET)
-    public String newUser() {
+    public String newUser(Model model) {
+        List<Role> roleList = userService.findAllRole();
+        model.addAttribute("roleList",roleList);
         return "user/new";
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
-    public String newUser(User user, RedirectAttributes redirectAttributes) {
-        userService.save(user);
+    public String newUser(User user,Integer[] roleIds, RedirectAttributes redirectAttributes) {
+        userService.saveNewUser(user,roleIds);
         redirectAttributes.addFlashAttribute("message","操作成功");
         return "redirect:/user";
     }

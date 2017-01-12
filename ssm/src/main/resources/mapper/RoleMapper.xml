@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.RoleMapper">
+    <insert id="saveNewUserRole">
+        INSERT INTO t_user_role(user_id,role_id) VALUES (#{userId},#{roleId})
+    </insert>
+    <select id="findAll" resultType="com.kaishengit.pojo.Role">
+        SELECT * from t_role ORDER by id DESC
+    </select>
+    <select id="findById" resultType="com.kaishengit.pojo.Role">
+        SELECT * FROM t_role WHERE id = #{id}
+    </select>
+</mapper>
