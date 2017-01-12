@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaishengit.mapper.UserMapper">
+    <insert id="save">
+        insert into t_user(user_name,password) VALUES (#{userName},#{password})
+    </insert>
+    <update id="update">
+        update t_user
+         <set>
+             user_name = #{userName},
+             <if test="password != null and password != ''">
+                 password = #{password}
+             </if>
+         </set>
+        where id = #{id}
+    </update>
+    <delete id="del">
+        DELETE FROM t_user where id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="com.kaishengit.pojo.User">
+        select * from t_user
+    </select>
+    <select id="findById" resultType="com.kaishengit.pojo.User">
+        SELECT * from t_user WHERE id = #{id}
+    </select>
+</mapper>
