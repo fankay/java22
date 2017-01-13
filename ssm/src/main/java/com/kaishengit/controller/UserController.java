@@ -43,6 +43,8 @@ public class UserController {
 
         model.addAttribute("roleList",roleList);
         model.addAttribute("page",page);
+        model.addAttribute("queryName",queryName);
+        model.addAttribute("queryRole",queryRole);
         return "user/list";
     }
 

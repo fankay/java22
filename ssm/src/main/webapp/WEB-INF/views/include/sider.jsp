@@ -24,7 +24,9 @@
                     <li class="${param.menu == 'sys_accounts' ? 'active' : ''}">
                         <a href="/user"><i class="fa fa-circle-o"></i> 账户管理</a>
                     </li>
-                    <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                    <li class="${param.menu == 'sys_device' ? 'active' : ''}">
+                        <a href="/setting/device"><i class="fa fa-circle-o"></i> 设备管理</a>
+                    </li>
                 </ul>
             </li>
 
