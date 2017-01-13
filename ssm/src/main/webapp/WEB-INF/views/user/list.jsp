@@ -23,7 +23,28 @@
         <section class="content">
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">账户管理</h3>
+                    <h3 class="box-title"><i class="fa fa-search"></i> 搜索</h3>
+                </div>
+                <div class="box-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input type="text" name="q_name" placeholder="姓名" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <select name="q_role"  class="form-control">
+                                <option value="">--角色--</option>
+                                <c:forEach items="${roleList}" var="role">
+                                    <option value="${role.id}">${role.viewName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <button class="btn btn-default">搜索</button>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-list"></i> 账户管理</h3>
                     <div class="box-tools pull-right">
                         <a href="/user/new" class="btn"><i class="fa fa-plus"></i></a>
                     </div>
@@ -44,7 +65,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${userList}" var="user">
+                        <c:forEach items="${page.items}" var="user">
                             <tr>
                                 <td>${user.userName}</td>
                                 <td>${user.roleNames}</td>
@@ -57,6 +78,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="box-footer">
+                        <ul style="margin:5px 0px" id="pagination" class="pagination pull-right"></ul>
+                </div>
             </div>
         </section>
         <!-- /.content -->
@@ -66,5 +90,20 @@
 </div>
 
 <%@include file="../include/js.jsp"%>
+<script src="/static/plugins/jquery.twbsPagination.min.js"></script>
+<script>
+    $(function () {
+//分页插件的使用
+        $("#pagination").twbsPagination({
+            totalPages:${page.totalPage},
+            visiblePages:5,
+            href:"/user?q_name=&q_role=&p={{number}}",
+            first:"首页",
+            prev:"上一页",
+            next:"下一页",
+            last:"末页"
+        });
+    });
+</script>
 </body>
 </html>

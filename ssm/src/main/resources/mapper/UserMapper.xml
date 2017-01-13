@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.UserMapper">
+
+    <cache/>
+
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into t_user(user_name,password) VALUES (#{userName},#{password})
     </insert>
@@ -20,10 +23,14 @@
         DELETE FROM t_user where id = #{id}
     </delete>
 
-    <select id="findAll" resultMap="UserMap">
+    <sql id="selectUserAndRole">
         select t_user.*,t_role.id as role_id,t_role.role_name,t_role.view_name from t_user
         left join t_user_role on t_user.id = t_user_role.user_id
         LEFT JOIN t_role on t_user_role.role_id = t_role.id
+    </sql>
+
+    <select id="findAll" resultMap="UserMap">
+        <include refid="selectUserAndRole"/>
     </select>
 
     <resultMap id="UserMap" type="User">
@@ -38,9 +45,46 @@
     </resultMap>
 
     <select id="findById" resultMap="UserMap">
-        select t_user.*,t_role.id as role_id,t_role.role_name,t_role.view_name from t_user
-        left join t_user_role on t_user.id = t_user_role.user_id
-        LEFT JOIN t_role on t_user_role.role_id = t_role.id
+        <include refid="selectUserAndRole"/>
         WHERE t_user.id = #{id}
     </select>
+    <select id="count" resultType="java.lang.Long">
+        select count(*) FROM t_user
+    </select>
+    <select id="findByPage" resultMap="UserMapN1">
+        SELECT * FROM t_user
+        limit ${start},${pageSize}
+    </select>
+    <select id="countByParam" resultType="java.lang.Long">
+        select count(*) from t_user
+        left JOIN t_user_role on t_user.id = t_user_role.user_id
+        <where>
+            <if test="queryName != null and queryName != ''">
+                user_name like concat('%',#{queryName},'%')
+            </if>
+            <if test="queryRole != null and queryRole != ''">
+                and  t_user_role.role_id = #{queryRole}
+            </if>
+        </where>
+    </select>
+    <select id="findByPageAndParam" resultMap="UserMapN1">
+        select * from t_user
+        left JOIN t_user_role on t_user.id = t_user_role.user_id
+        <where>
+            <if test="queryName != null and queryName != ''">
+                user_name like concat('%',#{queryName},'%')
+            </if>
+            <if test="queryRole != null and queryRole != ''">
+                and  t_user_role.role_id = #{queryRole}
+            </if>
+        </where>
+        limit ${start},${pageSize}
+    </select>
+
+    <resultMap id="UserMapN1" type="User">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <collection property="roleList" ofType="Role" column="id" select="com.kaishengit.mapper.RoleMapper.findByUserId"/>
+    </resultMap>
 </mapper>

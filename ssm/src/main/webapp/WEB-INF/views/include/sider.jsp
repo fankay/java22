@@ -16,7 +16,7 @@
                     <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                 </ul>
             </li>
-            <li class="treeview ${fn:startsWith(param.menu,'sys_') ? 'acitve' : ''}">
+            <li class="treeview ${fn:startsWith(param.menu,'sys_') ? 'active' : ''}">
                 <a href="#">
                     <i class="fa fa-cogs"></i> <span>系统设置</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
