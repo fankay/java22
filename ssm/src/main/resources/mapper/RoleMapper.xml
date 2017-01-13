@@ -4,6 +4,9 @@
     <insert id="saveNewUserRole">
         INSERT INTO t_user_role(user_id,role_id) VALUES (#{userId},#{roleId})
     </insert>
+    <delete id="delRoleByUserId">
+        DELETE from t_user_role where user_id = #{userId}
+    </delete>
     <select id="findAll" resultType="com.kaishengit.pojo.Role">
         SELECT * from t_role ORDER by id DESC
     </select>

@@ -37,7 +37,10 @@
         </collection>
     </resultMap>
 
-    <select id="findById" resultType="com.kaishengit.pojo.User">
-        SELECT * from t_user WHERE id = #{id}
+    <select id="findById" resultMap="UserMap">
+        select t_user.*,t_role.id as role_id,t_role.role_name,t_role.view_name from t_user
+        left join t_user_role on t_user.id = t_user_role.user_id
+        LEFT JOIN t_role on t_user_role.role_id = t_role.id
+        WHERE t_user.id = #{id}
     </select>
 </mapper>

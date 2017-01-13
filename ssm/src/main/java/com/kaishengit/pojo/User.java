@@ -5,7 +5,6 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 public class User implements Serializable {

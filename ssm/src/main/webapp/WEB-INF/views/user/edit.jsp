@@ -38,6 +38,27 @@
                             <input type="password" name="password" value="" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label>角色</label>
+                            <div>
+                                <c:forEach items="${roleList}" var="role">
+                                    <c:set var="flag" value="false" scope="page"/>
+                                    <c:forEach items="${user.roleList}" var="userRole">
+                                        <c:if test="${role.id == userRole.id}">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" checked name="roleIds" value="${role.id}"> ${role.viewName}
+                                            </label>
+                                            <c:set var="flag" value="true"/>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${not flag}">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="roleIds" value="${role.id}"> ${role.viewName}
+                                        </label>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <button class="btn btn-success">保存</button>
                         </div>
                     </form>

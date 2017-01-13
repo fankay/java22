@@ -42,7 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delUser(Integer id) {
+        //删除用户的角色
+        roleMapper.delRoleByUserId(id);
+        //删除用户
         userMapper.del(id);
     }
 
@@ -52,7 +56,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User user) {
+    @Transactional
+    public void editUser(User user, Integer[] roleIds) {
+        //删除原有角色
+        roleMapper.delRoleByUserId(user.getId());
+        //添加新角色
+        if(roleIds != null) {
+            for(Integer roleId : roleIds) {
+                Role role = roleMapper.findById(roleId);
+                if(role != null) {
+                    roleMapper.saveNewUserRole(user.getId(),roleId);
+                }
+            }
+        }
+        //更新用户
         if(StringUtils.isNotEmpty(user.getPassword())) {
             user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
         }
