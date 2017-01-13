@@ -61,6 +61,15 @@ public class UserServiceImpl implements UserService {
         //删除原有角色
         roleMapper.delRoleByUserId(user.getId());
         //添加新角色
+        addUserRole(user, roleIds);
+        //更新用户
+        if(StringUtils.isNotEmpty(user.getPassword())) {
+            user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
+        }
+        userMapper.update(user);
+    }
+
+    private void addUserRole(User user, Integer[] roleIds) {
         if(roleIds != null) {
             for(Integer roleId : roleIds) {
                 Role role = roleMapper.findById(roleId);
@@ -69,11 +78,6 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        //更新用户
-        if(StringUtils.isNotEmpty(user.getPassword())) {
-            user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
-        }
-        userMapper.update(user);
     }
 
     @Override
@@ -87,14 +91,6 @@ public class UserServiceImpl implements UserService {
         //1.保存用户
         userMapper.save(user);
         //2.保存用户和角色的关系
-        if(roleIds != null) {
-            for(Integer roleId : roleIds) {
-                Role role = roleMapper.findById(roleId);
-                if(role != null) {
-                    //创建关系表记录
-                    roleMapper.saveNewUserRole(user.getId(),roleId);
-                }
-            }
-        }
+        addUserRole(user, roleIds);
     }
 }
