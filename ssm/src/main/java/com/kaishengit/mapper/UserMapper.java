@@ -26,4 +26,6 @@ public interface UserMapper {
                                   @Param("pageSize") int pageSize,
                                   @Param("queryName") String queryName,
                                   @Param("queryRole") String queryRole);
+
+    User findByUserName(String userName);
 }

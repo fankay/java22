@@ -100,6 +100,12 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.21</version>
         </dependency>
+        <!--shiro-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-all</artifactId>
+            <version>1.3.2</version>
+        </dependency>
         <!--other-->
         <dependency>
             <groupId>commons-codec</groupId>

@@ -77,7 +77,7 @@
 <script>
     $(function () {
         var table = $(".table").DataTable({
-            "lengthMenu": [ 5,10, 25, 50, 75, 100 ],
+            "lengthMenu": [10,50,100],
             "serverSide": true,
             "ajax":{
                 "url":"/setting/device/load",

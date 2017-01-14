@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shrioDbRealm"/>
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="shiroFilter"
+          class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录地址-->
+        <property name="loginUrl" value="/"/>
+        <!--登录成功后的地址-->
+        <property name="successUrl" value="/home"/>
+        <!--没有权限给用户提示的页面-->
+        <property name="unauthorizedUrl" value="/403"/>
+        <!--权限配置-->
+        <property name="filterChainDefinitions">
+            <value>
+                /static/** = anon
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+
+</beans>

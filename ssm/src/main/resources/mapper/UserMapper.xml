@@ -84,6 +84,9 @@
         </where>
         limit ${start},${pageSize}
     </select>
+    <select id="findByUserName" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user where user_name = #{userName}
+    </select>
 
     <resultMap id="UserMapN1" type="User">
         <id column="id" property="id"/>
