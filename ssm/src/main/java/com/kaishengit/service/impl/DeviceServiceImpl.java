@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
@@ -34,5 +35,20 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public Long count() {
         return deviceMapper.count();
+    }
+
+    @Override
+    public List<Device> findDeviceBySearchParam(Map<String, Object> searchParam) {
+        return deviceMapper.findBySeachParam(searchParam);
+    }
+
+    @Override
+    public void delDevice(Integer id) {
+        deviceMapper.del(id);
+    }
+
+    @Override
+    public Long countBySearchParam(Map<String, Object> searchParam) {
+        return deviceMapper.countBySearchParam(searchParam);
     }
 }

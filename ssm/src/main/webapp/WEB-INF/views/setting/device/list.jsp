@@ -29,17 +29,9 @@
                 <div class="box-body">
                     <form class="form-inline">
                         <div class="form-group">
-                            <input type="text" name="q_name" placeholder="姓名" value="${queryName}" class="form-control">
+                            <input type="text" id="q_device_name" placeholder="设备名称" value="${queryName}" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <select name="q_role"  class="form-control">
-                                <option value="">--角色--</option>
-                                <c:forEach items="${roleList}" var="role">
-                                    <option value="${role.id}" ${role.id == queryRole ? 'selected' : ''}>${role.viewName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <button class="btn btn-default">搜索</button>
+                        <button type="button" id="searchBtn" class="btn btn-default">搜索</button>
                     </form>
                 </div>
             </div>
@@ -84,25 +76,33 @@
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
 <script>
     $(function () {
-        $(".table").DataTable({
+        var table = $(".table").DataTable({
             "lengthMenu": [ 5,10, 25, 50, 75, 100 ],
             "serverSide": true,
-            "ajax":"/setting/device/load",
+            "ajax":{
+                "url":"/setting/device/load",
+                "type":"post",
+                "data":function(obj){
+                    obj.deviceName= $("#q_device_name").val();
+                }
+            },
+            "searching":false,//不使用自带的搜索
+            "order":[[0,'desc']],//默认排序方式
             "columns":[
-                {"data":"id"},
+                {"data":"id","name":"id"},
                 {"data":"name"},
                 {"data":"unit"},
-                {"data":"totalNum"},
-                {"data":"currentNum"},
-                {"data":"price"},
-                {"data":function(){
-                    return "";
+                {"data":"totalNum","name":"total_num"},
+                {"data":"currentNum","name":"current_num"},
+                {"data":"price","name":"price"},
+                {"data":function(obj){
+                    return "<a href='javascript:;' rel='"+obj.id+"' class='delLink'>删除</a>";
                 }}
 
             ],
             "columnDefs":[
                 {targets:[0],visible: false},
-                {targets:[1,2,3,4,5],orderable:false}
+                {targets:[1,2,6],orderable:false}
             ],
             "language":{ //定义中文
                 "search": "搜索:",
@@ -120,6 +120,29 @@
                 }
             }
         });
+
+        $(document).delegate(".delLink","click",function(){
+            if(confirm("确定要删除吗?")) {
+                var id = $(this).attr("rel");
+                $.get("/setting/device/"+id+"/del").done(function(data){
+                    if(data == "success") {
+                        alert("删除成功");
+
+                        //dataTables重新加载
+                        table.ajax.reload();
+                    }
+                }).error(function(){
+                    alert("服务器异常");
+                });
+            }
+        });
+
+        //自定义搜索
+        $("#searchBtn").click(function () {
+            table.draw(); //dataTables发出请求
+        });
+
+
     });
 </script>
 </body>

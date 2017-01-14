@@ -5,6 +5,9 @@
         INSERT  INTO t_device(name,unit,total_num,current_num,price)
         values(#{name},#{unit},#{totalNum},#{currentNum},#{price})
     </insert>
+    <delete id="del">
+        DELETE FROM t_device where id = #{id}
+    </delete>
     <select id="findAll" resultType="com.kaishengit.pojo.Device">
         SELECT * FROM t_device
     </select>
@@ -13,5 +16,25 @@
     </select>
     <select id="count" resultType="java.lang.Long">
         SELECT count(*) FROM t_device
+    </select>
+    <select id="findBySeachParam" resultType="com.kaishengit.pojo.Device">
+        SELECT * FROM t_device
+        <where>
+            <if test="deviceName != null and deviceName != ''">
+                name like concat('%',#{deviceName},'%')
+            </if>
+        </where>
+        <if test="orderType != null and orderType != '' and orderColumn != null and orderColumn != ''">
+            ORDER BY ${orderColumn} ${orderType}
+        </if>
+        limit ${start},${length}
+    </select>
+    <select id="countBySearchParam" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM t_device
+        <where>
+            <if test="deviceName != null and deviceName != ''">
+                name like concat('%',#{deviceName},'%')
+            </if>
+        </where>
     </select>
 </mapper>
