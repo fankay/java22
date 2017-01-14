@@ -32,10 +32,22 @@ public class HomeController {
         }
     }
 
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public String logout(RedirectAttributes redirectAttributes) {
+        //安全退出
+        SecurityUtils.getSubject().logout();
+        redirectAttributes.addFlashAttribute("message","你已安全退出");
+        return "redirect:/";
+    }
 
 
     @RequestMapping(value = "/home",method = RequestMethod.GET)
     public String home() {
         return "home";
+    }
+
+    @RequestMapping("/403")
+    public String error403() {
+        return "403";
     }
 }
