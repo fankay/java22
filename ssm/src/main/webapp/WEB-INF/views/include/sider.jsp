@@ -7,17 +7,33 @@
     <section class="sidebar">
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <shiro:hasRole name="role_admin">
-                <li class="header">设置模块</li>
+
+            <li class="header">业务模块</li>
+            <li class="treeview ${param.menu == 'business_device_rent' ? 'active' : ''}">
+                <a href="/device/rent">
+                    <i class="fa fa-circle-o"></i> <span>设备租赁</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>网盘系统</span>
+                </a>
+            </li>
+            <shiro:hasRole name="role_fin">
+                <li class="header">财务模块</li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-circle-o"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                        <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                    </ul>
                 </li>
+            </shiro:hasRole>
+            <shiro:hasRole name="role_admin">
+                <li class="header">设置模块</li>
                 <li class="treeview ${fn:startsWith(param.menu,'sys_') ? 'active' : ''}">
                     <a href="#">
                         <i class="fa fa-cogs"></i> <span>系统设置</span> <i class="fa fa-angle-left pull-right"></i>
@@ -32,30 +48,10 @@
                     </ul>
                 </li>
             </shiro:hasRole>
-            <li class="header">业务模块</li>
-            <shiro:hasRole name="role_fin">
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                </li>
-            </shiro:hasRole>
-            <shiro:hasRole name="role_sales">
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>设备租赁</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>劳务派遣</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                </li>
-            </shiro:hasRole>
             <li class="header">用户模块</li>
             <li class="treeview">
                 <a href="/logout">
-                    <i class="fa fa-dashboard"></i> <span>安全退出</span></i>
+                    <i class="fa fa-sign-out"></i> <span>安全退出</span></i>
                 </a>
             </li>
 

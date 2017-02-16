@@ -61,4 +61,9 @@ public class DeviceServiceImpl implements DeviceService {
     public Long countBySearchParam(Map<String, Object> searchParam) {
         return deviceMapper.countBySearchParam(searchParam);
     }
+
+    @Override
+    public Device findDeviceById(Integer id) {
+        return deviceMapper.findById(id);
+    }
 }

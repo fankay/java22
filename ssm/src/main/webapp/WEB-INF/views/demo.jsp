@@ -12,7 +12,9 @@
 <div class="wrapper">
 
     <%@include file="include/header.jsp"%>
-    <%@include file="include/sider.jsp"%>
+    <jsp:include page="include/sider.jsp">
+        <jsp:param name="menu" value="sys_device"/>
+    </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -33,7 +35,7 @@
         <section class="content">
 
             <!-- Default box -->
-            <div class="box">
+            <div class="box box-primary box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">Title</h3>
 

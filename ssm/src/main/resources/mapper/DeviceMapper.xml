@@ -37,4 +37,8 @@
             </if>
         </where>
     </select>
+
+    <select id="findById" resultType="com.kaishengit.pojo.Device">
+        select * from t_device where id = #{id}
+    </select>
 </mapper>
