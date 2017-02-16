@@ -114,7 +114,7 @@
                     </table>
                 </div>
                 <div class="box-footer" style="text-align: right">
-                    总租赁费 {{total}} 元 预付款 {{preCost}} 元 尾款  元
+                    总租赁费 {{total}} 元 预付款 {{preCost}} 元 尾款 {{lastCost}} 元
                 </div>
             </div>
 
@@ -271,6 +271,12 @@
                     result += item.total;
                 }
                 return result;
+            },
+            preCost : function() {
+                return this.total * 0.3;
+            },
+            lastCost : function() {
+                return this.total - this.preCost;
             }
         }
     });
