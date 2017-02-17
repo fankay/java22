@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.DeviceRentMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_device_rent(company_name, link_man, card_num, tel, address, fax, rent_date, back_date, total_day, total_price, last_cost, pre_cost,create_user,serial_number)
+        VALUES
+        (#{companyName},#{linkMan},#{cardNum},#{tel},#{address},#{fax},#{rentDate},#{backDate},#{totalDay},#{totalPrice},#{lastCost},#{preCost},#{createUser},#{serialNumber})
+    </insert>
+    <update id="updateCost">
+        UPDATE t_device_rent set total_price = #{total}, last_cost = #{lastCost}, pre_cost = #{preCost} where id = #{id}
+    </update>
+    <select id="findBySerialNumber" resultType="com.kaishengit.pojo.DeviceRent">
+        SELECT * FROM t_device_rent where serial_number = #{serialNumber}
+    </select>
+</mapper>

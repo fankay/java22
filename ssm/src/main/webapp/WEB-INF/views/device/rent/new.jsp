@@ -39,11 +39,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>公司名称</label>
-                                <input type="text" class="form-control" id="companyName">
+                                <input type="text" class="form-control" id="companyName" tabindex="1">
                             </div>
                             <div class="form-group">
                                 <label>联系电话</label>
-                                <input type="text" class="form-control" id="tel">
+                                <input type="text" class="form-control" id="tel" tabindex="4">
                             </div>
                             <div class="form-group">
                                 <label>租赁日期</label>
@@ -53,25 +53,25 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>法人代表</label>
-                                <input type="text" class="form-control" id="linkMan">
+                                <input type="text" class="form-control" id="linkMan" tabindex="2">
                             </div>
                             <div class="form-group">
                                 <label>地址</label>
-                                <input type="text" class="form-control" id="address">
+                                <input type="text" class="form-control" id="address" tabindex="5">
                             </div>
                             <div class="form-group">
                                 <label>归还日期</label>
-                                <input type="text" class="form-control" id="backDate">
+                                <input type="text" class="form-control" id="backDate" tabindex="7">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>身份证号</label>
-                                <input type="text" class="form-control" id="cardNum">
+                                <input type="text" class="form-control" id="cardNum" tabindex="3">
                             </div>
                             <div class="form-group">
                                 <label>传真</label>
-                                <input type="text" class="form-control" id="fax">
+                                <input type="text" class="form-control" id="fax" tabindex="6">
                             </div>
                             <div class="form-group">
                                 <label>总天数</label>
@@ -258,7 +258,11 @@
             var html = "<li>"+resp.data.sourceFileName+"</li>"
             $("#fileList").append(html);
 
-            fileArray.push(resp.data.newFileName);
+            var json = {
+                sourceName : resp.data.sourceFileName,
+                newName : resp.data.newFileName
+            };
+            fileArray.push(json);
         });
         uploder.on("uploadError",function(){
             layer.msg("服务器忙，请稍后再试");
@@ -327,7 +331,13 @@
                     data: JSON.stringify(json),
                     contentType: "application/json;charset=UTF-8",
                     success:function(data){
-
+                        if(data.status == 'success') {
+                            layer.confirm("保存成功",{btn:['继续添加','打印合同']},function(){
+                                window.history.go(0);
+                            },function(){
+                                window.location.href = "/device/rent/"+data.data;
+                            });
+                        }
                     },
                     error:function(){
                         layer.msg("服务器忙，请稍后");
