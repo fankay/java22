@@ -1,5 +1,6 @@
 package com.kaishengit.service.impl;
 
+import com.kaishengit.dto.DeviceRentDto;
 import com.kaishengit.mapper.DeviceMapper;
 import com.kaishengit.pojo.Device;
 import com.kaishengit.pojo.User;
@@ -65,5 +66,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public Device findDeviceById(Integer id) {
         return deviceMapper.findById(id);
+    }
+
+    @Override
+    public void saveRent(DeviceRentDto deviceRentDto) {
+        //xxx
     }
 }

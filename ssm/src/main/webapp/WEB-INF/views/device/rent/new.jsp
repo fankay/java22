@@ -39,11 +39,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>公司名称</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="companyName">
                             </div>
                             <div class="form-group">
                                 <label>联系电话</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="tel">
                             </div>
                             <div class="form-group">
                                 <label>租赁日期</label>
@@ -53,11 +53,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>法人代表</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="linkMan">
                             </div>
                             <div class="form-group">
                                 <label>地址</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="address">
                             </div>
                             <div class="form-group">
                                 <label>归还日期</label>
@@ -67,15 +67,15 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>身份证号</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="cardNum">
                             </div>
                             <div class="form-group">
                                 <label>传真</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="fax">
                             </div>
                             <div class="form-group">
                                 <label>总天数</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="totalDays" readonly>
                             </div>
                         </div>
                     </div>
@@ -100,15 +100,20 @@
                                 <th>租赁单价</th>
                                 <th>数量</th>
                                 <th>总价</th>
+                                <th>#</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr v-if="deviceArray.length == 0">
+                                <td colspan="6">暂无数据</td>
+                            </tr>
                             <tr v-for="device in deviceArray">
                                 <td>{{device.name}}</td>
                                 <td>{{device.unit}}</td>
                                 <td>{{device.price}}</td>
                                 <td>{{device.num}}</td>
                                 <td>{{device.total}}</td>
+                                <td><a href="javascript:;" @click="remove(device)"><i class="fa fa-trash text-danger"></i></a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,8 +129,10 @@
                 </div>
                 <div class="box-body">
                     <div id="picker">选择文件</div>
-                    注意：上传合同扫描件要求清晰可见 合同必须公司法人签字盖章
-                    <button class="btn btn-primary pull-right">保存合同</button>
+                    <p>注意：上传合同扫描件要求清晰可见 合同必须公司法人签字盖章</p>
+                    <ul id="fileList">
+                    </ul>
+                    <button class="btn btn-primary pull-right" type="button" @click="saveRent">保存合同</button>
                 </div>
             </div>
 
@@ -188,8 +195,19 @@
 <script src="/static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
 <script src="/static/plugins/select2/select2.full.min.js"></script>
 <script src="/static/plugins/vue.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
 <script>
+
+    var fileArray = [];
+
     $(function () {
+        /*var day1 = moment('2017-09-21');
+        var day2 = moment('2017-09-22');
+        var result = day2.diff(day1,'days');
+        console.log(result);*/
+
+
+
         $("#deviceId").select2();
         $("#deviceId").change(function () {
             var id = $(this).val();
@@ -218,16 +236,35 @@
             language: "zh-CN",
             autoclose: true,
             startDate:moment().add(1,'days').format("YYYY-MM-DD")
+        }).on("changeDate",function(e){
+            var rentDay = moment();
+            var backDay = moment(e.format(0,'yyyy-mm-dd'));
+            var days = backDay.diff(rentDay,'days')+1;
+            $("#totalDays").val(days);
         });
+
 
 
         var uploder = WebUploader.create({
             swf : "js/uploader/Uploader.swf",
-            server: "#",
+            server: "/file/upload",
             pick: '#picker',
             auto : true,
             fileVal:'file'
         });
+
+        uploder.on("uploadSuccess",function(file,resp){
+            layer.msg("上传成功");
+            var html = "<li>"+resp.data.sourceFileName+"</li>"
+            $("#fileList").append(html);
+
+            fileArray.push(resp.data.newFileName);
+        });
+        uploder.on("uploadError",function(){
+            layer.msg("服务器忙，请稍后再试");
+        });
+
+
     });
 
     var app = new Vue({
@@ -261,6 +298,42 @@
 
                     this.$data.deviceArray.push(json);
                 }
+            },
+            remove:function(device){
+                layer.confirm("确定要删除吗",function(index){
+                    app.$data.deviceArray.splice(app.$data.deviceArray.indexOf(device),1);
+                    layer.close(index);
+                });
+            },
+            saveRent:function(){
+                var json = {
+                    deviceArray : app.$data.deviceArray,
+                    fileArray : fileArray,
+                    companyName : $("#companyName").val(),
+                    tel : $("#tel").val(),
+                    linkMan : $("#linkMan").val(),
+                    cardNum : $("#cardNum").val(),
+                    address : $("#address").val(),
+                    fax : $("#fax").val(),
+                    rentDate : $("#rentDate").val(),
+                    backDate : $("#backDate").val(),
+                    totalDate : $("#totalDays").val()
+                };
+
+                //JSON.parse()
+                $.ajax({
+                    url:"/device/rent/new",
+                    type:"post",
+                    data: JSON.stringify(json),
+                    contentType: "application/json;charset=UTF-8",
+                    success:function(data){
+
+                    },
+                    error:function(){
+                        layer.msg("服务器忙，请稍后");
+                    }
+                });
+
             }
         },
         computed:{

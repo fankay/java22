@@ -1,14 +1,13 @@
 package com.kaishengit.controller;
 
 import com.kaishengit.dto.AjaxResult;
+import com.kaishengit.dto.DeviceRentDto;
 import com.kaishengit.pojo.Device;
 import com.kaishengit.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +32,13 @@ public class DeviceRentController {
         List<Device> deviceList = deviceService.findAllDevice();
         model.addAttribute("deviceList",deviceList);
         return "device/rent/new";
+    }
+
+    @PostMapping("/new")
+    @ResponseBody
+    public String saveRent(@RequestBody DeviceRentDto deviceRentDto) {
+        deviceService.saveRent(deviceRentDto);
+        return "success";
     }
 
     /**
