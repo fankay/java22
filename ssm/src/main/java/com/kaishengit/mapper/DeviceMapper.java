@@ -22,4 +22,6 @@ public interface DeviceMapper {
     Long countBySearchParam(Map<String, Object> searchParam);
 
     Device findById(Integer id);
+
+    void updateCurrentNum(Device device);
 }

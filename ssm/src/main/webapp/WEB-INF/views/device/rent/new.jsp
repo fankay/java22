@@ -337,6 +337,8 @@
                             },function(){
                                 window.location.href = "/device/rent/"+data.data;
                             });
+                        } else {
+                            layer.msg(data.message);
                         }
                     },
                     error:function(){

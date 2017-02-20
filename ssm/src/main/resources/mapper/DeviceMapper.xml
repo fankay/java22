@@ -5,6 +5,9 @@
         INSERT  INTO t_device(name,unit,total_num,current_num,price)
         values(#{name},#{unit},#{totalNum},#{currentNum},#{price})
     </insert>
+    <update id="updateCurrentNum">
+        update t_device set current_num = #{currentNum}  where id = #{id};
+    </update>
     <delete id="del">
         DELETE FROM t_device where id = #{id}
     </delete>

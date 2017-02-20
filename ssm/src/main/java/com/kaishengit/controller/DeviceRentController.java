@@ -3,6 +3,7 @@ package com.kaishengit.controller;
 import com.kaishengit.dto.AjaxResult;
 import com.kaishengit.dto.DeviceRentDto;
 import com.kaishengit.exception.NotFoundException;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.pojo.Device;
 import com.kaishengit.pojo.DeviceRent;
 import com.kaishengit.pojo.DeviceRentDetail;
@@ -53,12 +54,16 @@ public class DeviceRentController {
     @PostMapping("/new")
     @ResponseBody
     public AjaxResult saveRent(@RequestBody DeviceRentDto deviceRentDto) {
-        String serialNumber = deviceService.saveRent(deviceRentDto);
 
-        AjaxResult result = new AjaxResult();
-        result.setData(serialNumber);
-        result.setStatus(AjaxResult.SUCCESS);
-        return result;
+        try {
+            String serialNumber = deviceService.saveRent(deviceRentDto);
+            AjaxResult result = new AjaxResult();
+            result.setData(serialNumber);
+            result.setStatus(AjaxResult.SUCCESS);
+            return result;
+        } catch (ServiceException ex) {
+            return new AjaxResult(AjaxResult.ERROR,ex.getMessage());
+        }
     }
 
     /**

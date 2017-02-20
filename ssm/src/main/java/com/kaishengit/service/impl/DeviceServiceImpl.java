@@ -3,6 +3,7 @@ package com.kaishengit.service.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.kaishengit.dto.DeviceRentDto;
+import com.kaishengit.exception.ServiceException;
 import com.kaishengit.mapper.DeviceMapper;
 import com.kaishengit.mapper.DeviceRentDetailMapper;
 import com.kaishengit.mapper.DeviceRentDocMapper;
@@ -113,6 +114,16 @@ public class DeviceServiceImpl implements DeviceService {
         List<DeviceRentDetail> detailList = Lists.newArrayList();
         float total = 0F;
         for(DeviceRentDto.DeviceArrayBean bean : deviceArray) {
+            //查询当前设备库存是否足够
+            Device device = deviceMapper.findById(bean.getId());
+            if(device.getCurrentNum() < bean.getNum()) {
+                throw new ServiceException(device.getName()+"库存不足");
+            } else {
+                device.setCurrentNum(device.getCurrentNum() - bean.getNum());
+                deviceMapper.updateCurrentNum(device);
+            }
+
+
             DeviceRentDetail rentDetail = new DeviceRentDetail();
             rentDetail.setDeviceName(bean.getName());
             rentDetail.setTotalPrice(bean.getTotal());
