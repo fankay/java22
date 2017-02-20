@@ -1,6 +1,8 @@
 package com.kaishengit.controller;
 
+import com.google.common.collect.Maps;
 import com.kaishengit.dto.AjaxResult;
+import com.kaishengit.dto.DataTablesResult;
 import com.kaishengit.dto.DeviceRentDto;
 import com.kaishengit.exception.NotFoundException;
 import com.kaishengit.exception.ServiceException;
@@ -20,12 +22,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 @Controller
@@ -39,6 +43,24 @@ public class DeviceRentController {
     public String list() {
         return "device/rent/list";
     }
+
+    @GetMapping("/load")
+    @ResponseBody
+    public DataTablesResult load(HttpServletRequest request) {
+        String draw = request.getParameter("draw");
+        String start = request.getParameter("start");
+        String length = request.getParameter("length");
+
+        Map<String,Object> queryParam = Maps.newHashMap();
+        queryParam.put("start",start);
+        queryParam.put("length",length);
+
+        List<DeviceRent> deviceRentList = deviceService.findDeviceRentByQueryParam(queryParam);
+        Long count = deviceService.countOfDeviceRent();
+
+        return new DataTablesResult(draw,count,count,deviceRentList);
+    }
+
 
     /**
      * 新建租赁合同
@@ -169,6 +191,18 @@ public class DeviceRentController {
             inputStream.close();
         }
     }*/
+
+
+    /**
+     * 将合同状态修改为已完成
+     * @return
+     */
+    @PostMapping("/state/change")
+    @ResponseBody
+    public AjaxResult changeRentState(Integer id) {
+        deviceService.changeRentState(id);
+        return new AjaxResult(AjaxResult.SUCCESS);
+    }
 
 
 }

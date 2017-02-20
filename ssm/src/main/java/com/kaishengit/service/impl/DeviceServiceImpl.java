@@ -229,4 +229,24 @@ public class DeviceServiceImpl implements DeviceService {
         zipOutputStream.flush();
         zipOutputStream.close();
     }
+
+    @Override
+    public List<DeviceRent> findDeviceRentByQueryParam(Map<String, Object> queryParam) {
+        return rentMapper.findByQueryParam(queryParam);
+    }
+
+    @Override
+    public Long countOfDeviceRent() {
+        return rentMapper.count();
+    }
+
+    @Override
+    @Transactional
+    public void changeRentState(Integer id) {
+        //1. 将合同修改为已完成
+        DeviceRent deviceRent = findDeviceRentById(id);
+        deviceRent.setState("已完成");
+        rentMapper.updateState(deviceRent);
+        //2. 向财务模块添加尾款记录
+    }
 }

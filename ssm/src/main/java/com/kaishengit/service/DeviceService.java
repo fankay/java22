@@ -47,4 +47,10 @@ public interface DeviceService {
     DeviceRent findDeviceRentById(Integer id);
 
     void downloadZipFile(DeviceRent rent, ZipOutputStream zipOutputStream) throws IOException;
+
+    List<DeviceRent> findDeviceRentByQueryParam(Map<String, Object> queryParam);
+
+    Long countOfDeviceRent();
+
+    void changeRentState(Integer id);
 }
