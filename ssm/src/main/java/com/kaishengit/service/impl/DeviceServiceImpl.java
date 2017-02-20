@@ -11,16 +11,21 @@ import com.kaishengit.pojo.*;
 import com.kaishengit.service.DeviceService;
 import com.kaishengit.shiro.ShiroUtil;
 import com.kaishengit.util.SerialNumberUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
@@ -35,6 +40,8 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceRentDetailMapper rentDetailMapper;
     @Autowired
     private DeviceRentDocMapper rentDocMapper;
+    @Value("${upload.path}")
+    private String fileSavePath;
 
     @Override
     public void saveNewDevice(Device device) {
@@ -167,5 +174,48 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public List<DeviceRentDoc> findDeviceRentDocListByRentId(Integer id) {
         return rentDocMapper.findByRentId(id);
+    }
+
+    @Override
+    public InputStream downloadFile(Integer docId) throws IOException {
+        DeviceRentDoc doc = rentDocMapper.findById(docId);
+        if(doc == null) {
+            return null;
+        } else {
+            File file = new File(new File(fileSavePath),doc.getNewName());
+            if(file.exists()) {
+                return new FileInputStream(file);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public DeviceRentDoc findDeviceRentDocById(Integer id) {
+        return rentDocMapper.findById(id);
+    }
+
+    @Override
+    public DeviceRent findDeviceRentById(Integer id) {
+        return rentMapper.findById(id);
+    }
+
+    @Override
+    public void downloadZipFile(DeviceRent rent, ZipOutputStream zipOutputStream) throws IOException {
+        //查找合同有多少个合同附件
+        List<DeviceRentDoc> deviceRentDocs = findDeviceRentDocListByRentId(rent.getId());
+        for(DeviceRentDoc doc : deviceRentDocs) {
+            ZipEntry entry = new ZipEntry(doc.getSourceName());
+            zipOutputStream.putNextEntry(entry);
+
+            InputStream inputStream = downloadFile(doc.getId());
+            IOUtils.copy(inputStream,zipOutputStream);
+            inputStream.close();
+        }
+
+        zipOutputStream.closeEntry();
+        zipOutputStream.flush();
+        zipOutputStream.close();
     }
 }

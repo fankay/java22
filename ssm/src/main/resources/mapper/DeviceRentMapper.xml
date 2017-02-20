@@ -12,4 +12,7 @@
     <select id="findBySerialNumber" resultType="com.kaishengit.pojo.DeviceRent">
         SELECT * FROM t_device_rent where serial_number = #{serialNumber}
     </select>
+    <select id="findById" resultType="com.kaishengit.pojo.DeviceRent">
+         SELECT * FROM t_device_rent where id = #{id}
+    </select>
 </mapper>

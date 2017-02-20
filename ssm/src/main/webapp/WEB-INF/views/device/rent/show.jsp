@@ -113,16 +113,17 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                        <c:forEach items="${detailList}" var="d">
                             <tr>
-                                <c:forEach items="${detailList}" var="d">
+
                                 <td>${d.deviceName}</td>
                                 <td>${d.deviceUnit}</td>
                                 <td>${d.devicePrice}</td>
                                 <td>${d.num}</td>
                                 <td>${d.totalPrice}</td>
-                                </c:forEach>
+
                             </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -131,11 +132,16 @@
             <div class="box hidden-print">
                 <div class="box-header">
                     <h3 class="box-title">合同扫描件</h3>
+                    <div class="box-tools pull-right">
+                        <a href="/device/rent/doc/zip?id=${rent.id}" class="btn btn-sm btn-default">
+                            <i class="fa fa-file-zip"></i> 打包下载
+                        </a>
+                    </div>
                 </div>
                 <div class="box-body">
                     <ul id="fileList">
                         <c:forEach items="${docList}" var="doc">
-                            <li>${doc.sourceName}</li>
+                            <li><a href="/device/rent/doc?id=${doc.id}">${doc.sourceName}</a></li>
                         </c:forEach>
                     </ul>
                 </div>

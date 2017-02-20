@@ -41,7 +41,6 @@
                                 <th>归还日期</th>
                                 <th>状态</th>
                                 <th>租金</th>
-                                <th>违约金</th>
                                 <th>#</th>
                             </tr>
                         </thead>
