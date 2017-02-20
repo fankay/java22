@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>设备租赁</title>
     <%@include file="../../include/css.jsp"%>
-    <link rel="stylesheet" href="/static/plugins/datatables/jquery.dataTables.css">
-    <link rel="stylesheet" href="/static/plugins/datatables/extensions/FixedHeader/css/dataTables.fixedHeader.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables1.10.13/media/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/static/plugins/datatables1.10.13/extensions/FixedHeader/css/fixedHeader.bootstrap.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table">
+                    <table class="table" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -61,8 +61,9 @@
 </div>
 
 <%@include file="../../include/js.jsp"%>
-<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/static/plugins/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js"></script>
+<script src="/static/plugins/datatables1.10.13/media/js/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables1.10.13/media/js/dataTables.bootstrap.min.js"></script>
+<script src="/static/plugins/datatables1.10.13/extensions/FixedHeader/js/dataTables.fixedHeader.min.js"></script>
 <script src="/static/plugins/layer/layer.js"></script>
 <script>
     $(function(){
@@ -78,7 +79,6 @@
             "searching":false,//不使用自带的搜索
             "order":[[0,'desc']],//默认排序方式,
             "ordering": false,
-            "autoWidth": false,
             "columns":[
                 {"data":"id","name":"id"},
                 {"data":function(row){
@@ -121,7 +121,7 @@
                 }
             }
         });
-        //new $.fn.dataTable.FixedHeader(table);
+        new $.fn.dataTable.FixedHeader(table);
 
         //将合同变为完成状态
         $(document).delegate(".checkBtn","click",function(){
