@@ -19,8 +19,8 @@
                     <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
                 </a>
             </li>
-            <li class="treeview">
-                <a href="#">
+            <li class="treeview ${fn:startsWith(param.menu,'pan') ? 'active' : ''}">
+                <a href="/pan">
                     <i class="fa fa-circle-o"></i> <span>网盘系统</span>
                 </a>
             </li>

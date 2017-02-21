@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.DiskMapper">
+    <insert id="save">
+        insert into t_disk(source_name,name,fid,size,create_time,create_user,type)
+        VALUES
+        (#{sourceName},#{name},#{fid},#{size},#{createTime},#{createUser},#{type})
+    </insert>
+    <select id="findByFid" resultType="com.kaishengit.pojo.Disk">
+        SELECT * from t_disk where fid = #{fid}
+    </select>
+</mapper>
