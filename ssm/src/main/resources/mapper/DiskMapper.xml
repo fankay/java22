@@ -6,7 +6,23 @@
         VALUES
         (#{sourceName},#{name},#{fid},#{size},#{createTime},#{createUser},#{type})
     </insert>
+    <delete id="delete">
+        DELETE FROM t_disk where id = #{id}
+    </delete>
+    <delete id="batchDel">
+        DELETE FROM t_disk WHERE id in(
+        <foreach collection="list" item="id" separator=",">
+          #{id}
+        </foreach>
+        )
+    </delete>
     <select id="findByFid" resultType="com.kaishengit.pojo.Disk">
         SELECT * from t_disk where fid = #{fid}
+    </select>
+    <select id="findById" resultType="com.kaishengit.pojo.Disk">
+        select * from t_disk where id = #{id}
+    </select>
+    <select id="findAll" resultType="com.kaishengit.pojo.Disk">
+        SELECT * FROM t_disk
     </select>
 </mapper>
