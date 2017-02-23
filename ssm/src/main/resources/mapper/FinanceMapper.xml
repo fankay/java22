@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.FinanceMapper">
+    <insert id="save">
+        INSERT into t_finance(serial_number, `type`, money, state, `module`, create_date, create_user, confirm_user, confirm_date,mark,module_serial_number)
+        VALUES (#{serialNumber},#{type},#{money},#{state},#{module},#{createDate},#{createUser},#{confirmUser},#{confirmDate},#{mark},#{moduleSerialNumber})
+    </insert>
+    <update id="updateState">
+        update t_finance set state = #{state},confirm_user=#{confirmUser},confirm_date=#{confirmDate} where id = #{id}
+    </update>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_finance
+    </select>
+    <select id="findByQueryParam" resultType="com.kaishengit.pojo.Finance">
+        SELECT * FROM t_finance
+        <where>
+            <if test="day != null and day != ''">
+                create_date = #{day}
+            </if>
+        </where>
+        order by confirm_date asc ,create_date desc
+        limit ${start},${length}
+    </select>
+    <select id="findById" resultType="com.kaishengit.pojo.Finance">
+        SELECT * FROM t_finance WHERE id = #{id}
+    </select>
+    <select id="filterCount" resultType="java.lang.Long">
+        SELECT count(*) FROM t_finance
+        <where>
+            <if test="day != null and day != ''">
+                create_date = #{day}
+            </if>
+        </where>
+    </select>
+    <select id="findByCreateDate" resultType="com.kaishengit.pojo.Finance">
+        SELECT * FROM t_finance WHERE create_date = #{today}
+    </select>
+</mapper>
