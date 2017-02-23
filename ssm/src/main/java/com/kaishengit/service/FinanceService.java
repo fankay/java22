@@ -16,4 +16,6 @@ public interface FinanceService {
     Long filterCount(Map<String, Object> queryParam);
 
     List<Finance> findByCreatDate(String today);
+
+    List<Map<String,Object>> findPieDataByDay(String today,String type);
 }

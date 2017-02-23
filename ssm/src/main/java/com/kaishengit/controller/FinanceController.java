@@ -127,4 +127,17 @@ public class FinanceController {
 
     }
 
+    /**
+     * 按天加载数据饼图
+     * @param today
+     * @return
+     */
+    @GetMapping("/day/{type}/{today}/pie")
+    @ResponseBody
+    public AjaxResult dayPieData(@PathVariable String type,@PathVariable String today) {
+        type = "in".equals(type) ? "收入" : "支出";
+        List<Map<String,Object>> pieData = financeService.findPieDataByDay(today,type);
+        return new AjaxResult(AjaxResult.SUCCESS,"",pieData);
+    }
+
 }

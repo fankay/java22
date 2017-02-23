@@ -1,8 +1,10 @@
 package com.kaishengit.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class AjaxResult {
 
     public static final String SUCCESS = "success";

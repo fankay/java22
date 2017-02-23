@@ -51,4 +51,14 @@ public class FinanceServiceImpl implements FinanceService {
     public List<Finance> findByCreatDate(String today) {
         return financeMapper.findByCreateDate(today);
     }
+
+    /**
+     * 日报表中显示饼图数据
+     * @param today
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> findPieDataByDay(String today,String type) {
+        return financeMapper.findPieData(today,type);
+    }
 }

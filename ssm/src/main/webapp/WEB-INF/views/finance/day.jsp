@@ -61,6 +61,22 @@
             </div>
             <!-- /.box -->
 
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">今日收支统计</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="inChart" style="width: 100%;height: 300px"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="outChart" style="width: 100%;height: 300px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
         <!-- /.content -->
     </div>
@@ -75,6 +91,7 @@
 <script src="/static/plugins/moment.js"></script>
 <script src="/static/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="/static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="/static/plugins/echarts.min.js"></script>
 <script>
     $(function () {
         $("#date").val(moment().format("YYYY-MM-DD"));
@@ -88,6 +105,7 @@
             var today = e.format(0,'yyyy-mm-dd');
             //table.ajax.reload(false,null);
             table.ajax.reload();
+            loadPie();
         });
 
         var table = $(".table").DataTable({
@@ -165,6 +183,86 @@
             var day = $("#date").val();
             window.location.href = "/finance/day/"+day+"/data.xls";
         })
+
+        //echart图
+        var inChart = echarts.init($("#inChart")[0]);
+        var outChart = echarts.init($("#outChart")[0]);
+        var option = {
+            title : {
+                left:'center'
+            },
+            tooltip: {},
+            legend:{
+                left:20,
+                orient:'vertical',
+                data:[]
+            },
+            series:[]
+        };
+
+        inChart.setOption(option);
+        outChart.setOption(option);
+
+        function loadPie() {
+            //收入统计
+            $.get("/finance/day/in/"+$("#date").val()+"/pie").done(function(result){
+                if(result.status == 'success') {
+                    var nameArray = [];
+                    for(var i = 0;i < result.data.length;i++) {
+                        var obj = result.data[i];
+                        nameArray.push(obj.name);
+                    }
+                    inChart.setOption({
+                        title:{
+                            text : "收入统计"
+                        },
+                        legend:{
+                            data:nameArray
+                        },
+                        series:[{
+                            type:'pie',
+                            name:"金额",
+                            data:result.data
+                        }]
+                    });
+                } else {
+                    layer.msg(result.message);
+                }
+            }).error(function(){
+                layer.msg("加载饼图异常");
+            });
+            //支出统计
+            $.get("/finance/day/out/"+$("#date").val()+"/pie").done(function(result){
+                if(result.status == 'success') {
+                    var nameArray = [];
+                    for(var i = 0;i < result.data.length;i++) {
+                        var obj = result.data[i];
+                        nameArray.push(obj.name);
+                    }
+                    outChart.setOption({
+                        title:{
+                            text : "支出统计"
+                        },
+                        legend:{
+                            data:nameArray
+                        },
+                        series:[{
+                            type:'pie',
+                            name:"金额",
+                            data:result.data
+                        }]
+                    });
+                } else {
+                    layer.msg(result.message);
+                }
+            }).error(function(){
+                layer.msg("加载饼图异常");
+            });
+        }
+
+
+        loadPie();
+
 
     });
 </script>
