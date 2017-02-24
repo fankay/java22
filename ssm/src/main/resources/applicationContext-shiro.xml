@@ -25,6 +25,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /static/** = anon
+                /wx/init = anon
                 /user = roles[role_admin]
                 /setting/** = roles[role_admin]
                 /** = authc

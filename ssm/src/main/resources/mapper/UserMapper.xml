@@ -7,7 +7,7 @@
     <cache/>
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user(user_name,password) VALUES (#{userName},#{password})
+        insert into t_user(user_name,password,mobile) VALUES (#{userName},#{password},#{mobile})
     </insert>
     <update id="update">
         update t_user

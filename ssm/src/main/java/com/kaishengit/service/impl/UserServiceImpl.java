@@ -5,6 +5,7 @@ import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.pojo.Role;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
+import com.kaishengit.service.WeixinService;
 import com.kaishengit.util.db.Page;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private WeixinService weixinService;
 
     @Value("${password.salt}")
     private String salt;
@@ -93,6 +97,13 @@ public class UserServiceImpl implements UserService {
         userMapper.save(user);
         //2.保存用户和角色的关系
         addUserRole(user, roleIds);
+        //3.保存到微信
+        com.kaishengit.dto.wx.User wxUser = new com.kaishengit.dto.wx.User();
+        wxUser.setUserid(user.getId().toString());
+        wxUser.setName(user.getUserName());
+        wxUser.setMobile(user.getMobile());
+        wxUser.setDepartment(Arrays.asList(roleIds));
+        weixinService.saveUser(wxUser);
     }
 
     @Override
