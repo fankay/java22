@@ -72,6 +72,12 @@ public class UserServiceImpl implements UserService {
             user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
         }
         userMapper.update(user);
+
+        //微信同步修改
+        com.kaishengit.dto.wx.User wxUser = new com.kaishengit.dto.wx.User();
+        wxUser.setUserid(user.getId().toString());
+        wxUser.setDepartment(Arrays.asList(roleIds));
+        weixinService.editUser(wxUser);
     }
 
     private void addUserRole(User user, Integer[] roleIds) {

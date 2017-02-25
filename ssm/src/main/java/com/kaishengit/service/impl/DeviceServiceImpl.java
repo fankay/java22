@@ -3,10 +3,12 @@ package com.kaishengit.service.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.kaishengit.dto.DeviceRentDto;
+import com.kaishengit.dto.wx.TextMessage;
 import com.kaishengit.exception.ServiceException;
 import com.kaishengit.mapper.*;
 import com.kaishengit.pojo.*;
 import com.kaishengit.service.DeviceService;
+import com.kaishengit.service.WeixinService;
 import com.kaishengit.shiro.ShiroUtil;
 import com.kaishengit.util.SerialNumberUtil;
 import org.apache.commons.io.IOUtils;
@@ -41,8 +43,12 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceRentDocMapper rentDocMapper;
     @Autowired
     private FinanceMapper financeMapper;
+    @Autowired
+    private WeixinService weixinService;
     @Value("${upload.path}")
     private String fileSavePath;
+
+
 
     @Override
     public void saveNewDevice(Device device) {
@@ -181,6 +187,17 @@ public class DeviceServiceImpl implements DeviceService {
 
         financeMapper.save(finance);
 
+        //5.给财务部发送消息
+
+        TextMessage message = new TextMessage();
+        TextMessage.TextBean textBean = new TextMessage.TextBean();
+        textBean.setContent("设备租赁模块添加一笔财务流水[预付款]，请确认");
+        message.setToparty("4");
+        message.setText(textBean);
+
+        weixinService.sendTextMessage(message);
+
+
         return rent.getSerialNumber();
     }
 
@@ -275,6 +292,16 @@ public class DeviceServiceImpl implements DeviceService {
         finance.setState(Finance.STATE_NEW);
         finance.setMark("合同尾款");
         finance.setModuleSerialNumber(deviceRent.getSerialNumber());
+
+        //3.给财务部发送消息
+
+        TextMessage message = new TextMessage();
+        TextMessage.TextBean textBean = new TextMessage.TextBean();
+        textBean.setContent("设备租赁模块添加一笔财务流水[尾款]，请确认");
+        message.setToparty("4");
+        message.setText(textBean);
+
+        weixinService.sendTextMessage(message);
 
         financeMapper.save(finance);
     }
