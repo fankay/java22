@@ -9,10 +9,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>../ssm-entity</module>
-        <module>../ssm-util</module>
-        <module>../ssm-service</module>
-        <module>../ssm-web</module>
+        <module>ssm-entity</module>
+        <module>ssm-util</module>
+        <module>ssm-service</module>
+        <module>ssm-web</module>
     </modules>
 
     <properties>
