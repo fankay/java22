@@ -1,0 +1,43 @@
+/*开启流程页面样式*/
+.wrapper {
+    display: block;
+    overflow: hidden;
+}
+.main {
+    display: block;
+    min-height: 100px;
+    margin: 0 0 10px 128px;
+    position: relative;
+    padding: 20px 20px;
+    border: #dfdfdf 1px solid;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.main .bg0 {
+    background: #d9a5ee;
+}
+.main .bg1 {
+    background: #84cfee;
+}
+.main .bg2 {
+    background: #bcd425;
+}
+.main .bg3 {
+    background: #feb406;
+}
+.main .bg0 {
+    background: #d9a5ee;
+}
+.main .arrow-left {display: block; width: 10px; height: 19px; position: absolute; top: 45px; left: -10px;  }
+.main .big-title {width: 90px; height: 90px; line-height: 90px; color: #fff; font-size: 14px; text-align: center; position: absolute; top: 10px; left: -110px; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; }
+.content {display: block; overflow: hidden; padding-bottom: 5px; border-bottom: #dfdfdf 1px dashed; }
+.content .small-title {display: block; overflow: hidden; line-height: 30px; font-size: 18px; margin-top: 5px; }
+.content ul {display: block; overflow: hidden; }
+.content ul li {float: left; display: inline; width: 150px; line-height: 25px; }
+.content .color_A {color: #0592f8; text-decoration:none; }
+.content .color_A:hover{color: #0592f8;  text-decoration:underline;}
+
+div .content{
+    min-height: 50px;
+}

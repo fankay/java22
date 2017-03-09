@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.LeaveMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="Leave">
+        INSERT  INTO t_leave(PROCESS_INSTANCE_ID,USER_ID,START_TIME,END_TIME,REASON,LEAVE_TYPE
+        ,APPLY_TIME,REALITY_START_TIME,REALITY_END_TIME)
+        values(#{processInstanceId},#{userId},#{startTime},#{endTime},#{reason},#{leaveType},
+        #{applyTime},#{realityStartTime},#{realityEndTime})
+    </insert>
+    <delete id="delete">
+
+    </delete>
+    <select id="getLeaveById"  resultType="com.kaishengit.pojo.Leave">
+        SELECT * FROM t_leave where id = #{id}
+    </select>
+
+    <update id="update" parameterType="Leave">
+        UPDATE t_leave
+        <set>
+
+        <if test="startTime!=null and startTime!= ''">
+            START_TIME=#{startTime},
+        </if>
+        <if test="endTime!=null and endTime!= ''">
+            END_TIME=#{endTime},
+        </if>
+        <if test="reason!=null and reason!= ''">
+            REASON=#{reason} ,
+        </if>
+        <if test="leaveType!=null and leaveType!= ''">
+            LEAVE_TYPE=#{leaveType},
+        </if>
+
+        <if test="realityStartTime!=null and realityStartTime!= ''">
+            REALITY_START_TIME=#{realityStartTime},
+        </if>
+        <if test="realityEndTime!=null and realityEndTime!= ''">
+            REALITY_END_TIME=#{realityEndTime}
+        </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+</mapper>
