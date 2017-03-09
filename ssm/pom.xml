@@ -65,7 +65,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.40</version>
+            <version>5.1.24</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -154,8 +154,17 @@
             <artifactId>gson</artifactId>
             <version>2.7</version>
         </dependency>
-
-
+        <!-- activiti jars -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+            <version>5.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring</artifactId>
+            <version>5.22.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ssm</finalName>
