@@ -10,9 +10,12 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import  com.kaishengit.pojo.Process;
@@ -40,6 +43,8 @@ public class ProcessController {
 
     @Autowired
     RepositoryService repositoryService;
+
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @RequestMapping("/apply")
     public String processApply(){
@@ -92,5 +97,42 @@ public class ProcessController {
             attributes.addFlashAttribute("message","签收任务失败");
         }
         return "redirect:/process/task/list";
+    }
+
+
+    @GetMapping("/myRunning/list")
+    public String myRunningProcess(Model model){
+        com.kaishengit.pojo.User user = ShiroUtil.getCurrentUser();
+        /**
+         * 1.通过当前登录的userId去查询historyProcessInstance
+         * */
+
+        List<HistoricProcessInstance> hisInstanceList = historyService.createHistoricProcessInstanceQuery()
+                .startedBy(user.getId().toString()).list();
+        List<Process> processList = new ArrayList<>();
+        for(HistoricProcessInstance instance:hisInstanceList){
+            /* 2.根据endtime==null 筛选正在运行的流程
+            * */
+            if(instance.getEndTime() != null ){
+                continue;
+            }
+            Process process = new Process();
+            process.setProcessInstanceId(instance.getId());
+            ProcessDefinition definition = repositoryService.createProcessDefinitionQuery()
+                    .processDefinitionId(instance.getProcessDefinitionId()).singleResult();
+            //设置流程名称
+            process.setProcessDefinitionName(definition.getName());
+            process.setApplyTime(format.format(instance.getStartTime()));
+            process.setUserName(user.getUserName());
+            //查询任务信息
+            Task task = taskService.createTaskQuery().executionId(instance.getId()).singleResult();
+
+            process.setTask(task);
+            processList.add(process);
+        }
+        model.addAttribute("processList",processList);
+        return "activiti/process/myRunning-process";
+
+
     }
 }

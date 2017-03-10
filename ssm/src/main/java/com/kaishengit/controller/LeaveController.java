@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,11 +97,14 @@ public class LeaveController {
         //开发底层mapper接口
         // leaveMapper.getLeaveByProcessInstanceId(processInstanceId);
 
-
         // 根据t_leave表中的userId查询userName(act_id_user)
         org.activiti.engine.identity.User actUser = identityService.createUserQuery().userId(leave.getUserId()).singleResult();
         leave.setUserName(actUser.getFirstName());
         model.addAttribute("leave",leave);
+        //如果task_def_key 为 modifyApply，跳转activiti/leave/modify-apply.jsp
+        if(task.getTaskDefinitionKey().equals("modifyApply")){
+            return "activiti/leave/modify-apply";
+        }
         return "activiti/leave/task-verify";
     }
 
@@ -135,6 +139,26 @@ public class LeaveController {
         }catch(ActivitiException e){
             attributes.addFlashAttribute("message","完成任务失败");
 
+        }
+        return "redirect:/process/task/list";
+    }
+
+    @RequestMapping(value = "task/modify/{taskId}",method = RequestMethod.POST)
+    public String modifyApply(@PathVariable String taskId,Leave leave
+            ,HttpServletRequest req,RedirectAttributes attributes){
+        String reApply = req.getParameter("reApply");
+        Map<String,Object> maps = new HashMap<>();
+        Boolean value = BooleanUtils.toBoolean(reApply);
+        maps.put("modifyApply",value);
+        try {
+            taskService.complete(taskId, maps);
+            //更新请假数据到t_leave表
+            if (value) {
+                leaveMapper.update(leave);
+            }
+            attributes.addFlashAttribute("message","操作成功");
+        }catch(ActivitiException e){
+            attributes.addFlashAttribute("message","操作失败");
         }
         return "redirect:/process/task/list";
     }
