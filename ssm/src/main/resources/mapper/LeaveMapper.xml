@@ -17,7 +17,9 @@
     <update id="update" parameterType="Leave">
         UPDATE t_leave
         <set>
-
+        <if test="processInstanceId!=null and processInstanceId!= ''">
+            PROCESS_INSTANCE_ID= #{processInstanceId},
+        </if>
         <if test="startTime!=null and startTime!= ''">
             START_TIME=#{startTime},
         </if>
