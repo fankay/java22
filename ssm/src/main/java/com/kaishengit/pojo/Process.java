@@ -1,10 +1,13 @@
 package com.kaishengit.pojo;
 
 import lombok.Data;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+
+import java.util.List;
 
 /**
  * Created by jimi_jin on 2017-2-25.
@@ -32,4 +35,7 @@ public class Process {
 
     // 流程定义
     private ProcessDefinition processDefinition;
+
+    // 流程活动节点
+    private List<HistoricActivityInstance> actList;
 }
