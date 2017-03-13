@@ -38,10 +38,11 @@ public class HibernateTest {
         session.save(user);
 
 
+
+
         //4.结束
         transaction.commit();
         //session.close();
-
 
 
     }
