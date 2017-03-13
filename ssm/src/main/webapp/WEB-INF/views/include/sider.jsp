@@ -24,6 +24,28 @@
                     <i class="fa fa-circle-o"></i> <span>网盘系统</span>
                 </a>
             </li>
+
+            <li class="header">工作流模块</li>
+            <li class="treeview ${fn:startsWith(param.menu,'process_') ? 'active' : ''}">
+                <a href="#">
+                    <i class="fa fa-cogs"></i> <span>个人流程</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="${param.menu == 'process_apply' ? 'active' : ''}">
+                        <a href="/process/apply"><i class="fa fa-circle-o"></i> 发起流程</a>
+                    </li>
+                    <li class="${param.menu == 'process_runninglist' ? 'active' : ''}">
+                        <a href="/process/myRunning/list"><i class="fa fa-circle-o"></i> 我的工作流</a>
+                    </li>
+                    <li class="${param.menu == 'process_list' ? 'active' : ''}">
+                        <a href="/process/task/list"><i class="fa fa-circle-o"></i> 我的待办</a>
+                    </li>
+                    <li class="${param.menu == 'process_historylist' ? 'active' : ''}">
+                        <a href="/process/history/list"><i class="fa fa-circle-o"></i> 历史工作流</a>
+                    </li>
+                </ul>
+            </li>
+
             <shiro:hasRole name="role_fin">
                 <li class="header">财务模块</li>
                 <li class="treeview ${fn:startsWith(param.menu,'finance_') ? 'active' : ''}">
