@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!--链接数据库-->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql:///mydb</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">rootroot</property>
+
+        <!--方言-->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!--数据库连接池-->
+        <property name="c3p0.max_size">2</property>
+        <property name="c3p0.min_size">2</property>
+        <property name="c3p0.timeout">5000</property>
+        <property name="c3p0.max_statements">100</property>
+        <property name="c3p0.idle_test_period">3000</property>
+        <property name="c3p0.acquire_increment">2</property>
+        <property name="c3p0.validate">false</property>
+
+        <!--other-->
+        <property name="show_sql">true</property>
+        <property name="current_session_context_class">thread</property>
+
+
+        <!--映射文件-->
+        <mapping resource="mapper/User.hbm.xml"/>
+
+
+    </session-factory>
+</hibernate-configuration>
