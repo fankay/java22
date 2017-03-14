@@ -51,31 +51,49 @@ public class HibernateTest {
     }
 
     @Test
-    public void findById() {
+    public void findById() throws InterruptedException {
         Session session = HibernateUtil.getSession();
         session.getTransaction().begin();
 
-        User user = (User) session.get(User.class,92);
-        System.out.println(user);
+        Task task = (Task) session.get(Task.class,"4028815e5acbca48015acbca4d370000",LockMode.UPGRADE);
+        task.setTitle("xxxx");
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Session session2 = HibernateUtil.getSession();
+                session2.getTransaction().begin();
+                Task task2 = (Task) session2.get(Task.class,"4028815e5acbca48015acbca4d370000");
+                task2.setTitle("zzzzzz");
+                session2.getTransaction().commit();
+            }
+        });
+
+        thread.start();
+        Thread.sleep(3000);
+        session.getTransaction().commit();
+
+       /* User user = (User) session.get(User.class,92);
+        System.out.println(user);*/
 
         //System.out.println(session.contains(user));
         //session.clear();
         //session.evict(user);
 
 
-        session.getTransaction().commit();
+
 
         //Cache cache = HibernateUtil.getSessionFactory().getCache();
         //cache.evictAllRegions();
         //cache.evictEntityRegion(User.class);
 
-        Session session1 = HibernateUtil.getSession();
+       /* Session session1 = HibernateUtil.getSession();
         session1.getTransaction().begin();
 
         user = (User) session1.get(User.class,92);
         System.out.println(user);
 
-        session1.getTransaction().commit();
+        session1.getTransaction().commit();*/
 
 
     }

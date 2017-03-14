@@ -9,5 +9,6 @@
             <generator class="uuid"/>
         </id>
         <property name="title"/>
+        <version name="version"/>
     </class>
 </hibernate-mapping>

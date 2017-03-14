@@ -37,7 +37,7 @@ public class OneToOneTest {
         /*Person person = (Person) session.get(Person.class,11);
         System.out.println(person.getName());*/
 
-        Card card = (Card) session.get(Card.class,11);
+        Card card = (Card) session.get(Card.class,12);
         System.out.println(card.getCardname());
 
         session.getTransaction().commit();
