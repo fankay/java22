@@ -29,6 +29,12 @@
 
         <!--映射文件-->
         <mapping resource="mapper/User.hbm.xml"/>
+        <mapping resource="mapper/Employee.hbm.xml"/>
+        <mapping resource="mapper/Dept.hbm.xml"/>
+        <mapping resource="mapper/Card.hbm.xml"/>
+        <mapping resource="mapper/Person.hbm.xml"/>
+        <mapping resource="mapper/Topic.hbm.xml"/>
+        <mapping resource="mapper/TopicContent.hbm.xml"/>
 
 
     </session-factory>

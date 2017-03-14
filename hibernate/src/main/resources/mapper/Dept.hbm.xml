@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kaishengit.pojo">
+
+    <class name="Dept" table="t_dept">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="deptname"/>
+        <!--
+            inverse : true 本方放弃关系维护，对方维护两者的关系
+            cascade: delete 级联删除
+        -->
+        <set name="employeeSet" inverse="true" order-by="id desc" cascade="delete">
+            <key column="deptid"/>
+            <one-to-many class="Employee"/>
+        </set>
+    </class>
+
+
+</hibernate-mapping>

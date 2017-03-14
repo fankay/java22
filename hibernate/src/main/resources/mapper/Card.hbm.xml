@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kaishengit.pojo">
+
+    <class name="Card" table="t_card">
+        <id name="id">
+            <generator class="foreign">
+                <param name="property">person</param>
+            </generator>
+        </id>
+        <property name="cardname"/>
+        <one-to-one name="person" class="Person"/>
+    </class>
+</hibernate-mapping>
