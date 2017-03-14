@@ -1,11 +1,9 @@
 package com.kaishengit.test;
 
+import com.kaishengit.pojo.Task;
 import com.kaishengit.pojo.User;
 import com.kaishengit.util.HibernateUtil;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -31,11 +29,16 @@ public class HibernateTest {
         Transaction transaction = session.getTransaction();
         transaction.begin();
 
-        User user = new User();
+        /*User user = new User();
         user.setUserName("Hibernate");
         user.setPassword("4.3.11");
 
-        session.save(user);
+        session.save(user);*/
+
+        Task task = new Task();
+        task.setTitle("ZZZ");
+
+        session.save(task);
 
 
 
@@ -52,10 +55,29 @@ public class HibernateTest {
         Session session = HibernateUtil.getSession();
         session.getTransaction().begin();
 
-        User user = (User) session.get(User.class,91);
+        User user = (User) session.get(User.class,92);
         System.out.println(user);
 
+        //System.out.println(session.contains(user));
+        //session.clear();
+        //session.evict(user);
+
+
         session.getTransaction().commit();
+
+        //Cache cache = HibernateUtil.getSessionFactory().getCache();
+        //cache.evictAllRegions();
+        //cache.evictEntityRegion(User.class);
+
+        Session session1 = HibernateUtil.getSession();
+        session1.getTransaction().begin();
+
+        user = (User) session1.get(User.class,92);
+        System.out.println(user);
+
+        session1.getTransaction().commit();
+
+
     }
 
     @Test

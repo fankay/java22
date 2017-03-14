@@ -25,6 +25,8 @@
         <!--other-->
         <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
+        <!--二级缓存-->
+        <property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 
 
         <!--映射文件-->
@@ -35,7 +37,9 @@
         <mapping resource="mapper/Person.hbm.xml"/>
         <mapping resource="mapper/Topic.hbm.xml"/>
         <mapping resource="mapper/TopicContent.hbm.xml"/>
-
+        <mapping resource="mapper/Teacher.hbm.xml"/>
+        <mapping resource="mapper/Student.hbm.xml"/>
+        <mapping resource="mapper/Task.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

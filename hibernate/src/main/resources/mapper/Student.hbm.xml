@@ -4,15 +4,15 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.kaishengit.pojo">
 
-    <class name="User" table="t_user">
-        <cache usage="read-write"/>
-
+    <class name="Student" table="t_student">
         <id name="id">
-            <!--主键策略 native:自动增长-->
             <generator class="native"/>
         </id>
-        <property name="userName" column="username"/>
-        <property name="password"/>
+        <property name="stuname"/>
+        <set name="teacherSet" table="t_student_teacher" order-by="teaid desc">
+            <key column="stuid"/>
+            <many-to-many class="Teacher" column="teaid" />
+        </set>
     </class>
 
 </hibernate-mapping>

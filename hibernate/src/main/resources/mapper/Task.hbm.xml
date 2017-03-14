@@ -4,15 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.kaishengit.pojo">
 
-    <class name="User" table="t_user">
-        <cache usage="read-write"/>
-
+    <class name="Task" table="t_task">
         <id name="id">
-            <!--主键策略 native:自动增长-->
-            <generator class="native"/>
+            <generator class="uuid"/>
         </id>
-        <property name="userName" column="username"/>
-        <property name="password"/>
+        <property name="title"/>
     </class>
-
 </hibernate-mapping>
