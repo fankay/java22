@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!--修改default.properties中的值-->
+    <!--<constant name="struts.action.extension" value=","/>-->
+
+    <package name="helloPackage" namespace="/" extends="struts-default">
+        <action name="hello" class="com.kaishengit.action.HelloAction">
+            <!--
+                name : 返回结果的名称 默认值为success
+                type : 跳转类型，
+                        默认为dispatch Action -> View 请求转发
+                        chain Action -> Action 请求转发
+                        redirect Action-> View 重定向
+                        redirectAction  Action -> Action 重定向
+            -->
+            <result>/WEB-INF/views/hello.jsp</result>
+        </action>
+        <action name="list" class="com.kaishengit.action.HelloAction" method="list">
+            <result name="success" type="redirectAction">
+                <param name="actionName">new</param>
+                <param name="namespace">/user</param>
+                <param name="code">${code}</param>
+            </result>
+        </action>
+    </package>
+
+    <package name="userPackage" extends="struts-default" namespace="/user">
+        <action name="new" class="com.kaishengit.action.UserAction">
+            <result>/WEB-INF/views/user/new.jsp</result>
+        </action>
+        <action name="save" class="com.kaishengit.action.UserAction" method="save">
+            <result type="redirectAction">
+                <param name="actionName">new</param>
+            </result>
+        </action>
+    </package>
+
+
+</struts>
