@@ -1,6 +1,6 @@
 package com.kaishengit.action;
 
-public class TaskAction extends BaseAction {
+public class ProductTaskAction extends BaseAction {
 
     @Override
     public String execute() throws Exception {

@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>List page!</h1>
+    <h1>Product-task</h1>
 </body>
 </html>
