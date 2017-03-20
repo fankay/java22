@@ -3,19 +3,66 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
+
+
+    <include file="struts-account.xml"/>
+    <include file="struts-task.xml"/>
+
+    <package name="basePackage" extends="struts-default" abstract="true">
+        <interceptors>
+            <interceptor name="login" class="com.kaishengit.action.interceptor.LoginInterceptor">
+                <param name="namespace">/</param>
+                <param name="actionNames">index,login</param>
+            </interceptor>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="login"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="myStack"/>
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="namespace">/</param>
+            </result>
+        </global-results>
+
+    </package>
+
+
+
+
+
+
+
+
+
+
+
     <!--修改default.properties中的值-->
     <!--<constant name="struts.action.extension" value=","/>-->
 
-    <package name="helloPackage" namespace="/" extends="struts-default">
+   <!-- <package name="helloPackage" namespace="/" extends="struts-default">
+
+        <interceptors>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="timer"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="myStack"/>
+
+
         <action name="hello" class="com.kaishengit.action.HelloAction">
-            <!--
+            &lt;!&ndash;
                 name : 返回结果的名称 默认值为success
                 type : 跳转类型，
                         默认为dispatch Action -> View 请求转发
                         chain Action -> Action 请求转发
                         redirect Action-> View 重定向
                         redirectAction  Action -> Action 重定向
-            -->
+            &ndash;&gt;
             <result>/WEB-INF/views/hello.jsp</result>
         </action>
         <action name="list" class="com.kaishengit.action.HelloAction" method="list">
@@ -36,7 +83,7 @@
                 <param name="actionName">new</param>
             </result>
         </action>
-    </package>
+    </package>-->
 
 
 </struts>

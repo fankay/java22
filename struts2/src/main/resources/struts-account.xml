@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+    <package name="accountPackage" extends="basePackage">
+        <action name="index" class="com.kaishengit.action.AccountAction">
+            <result>/WEB-INF/views/account/index.jsp</result>
+        </action>
+        <action name="login" class="com.kaishengit.action.AccountAction" method="login">
+            <result type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="namespace">/task</param>
+            </result>
+            <result name="error" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="code">${code}</param>
+            </result>
+        </action>
+    </package>
+
+
+</struts>

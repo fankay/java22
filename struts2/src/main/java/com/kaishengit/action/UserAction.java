@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserAction {
+public class UserAction extends BaseAction {
 
     public UserAction() {
         System.out.println("create userAction...");
@@ -17,7 +17,7 @@ public class UserAction {
 
     public String execute() {
         names = Arrays.asList("aa","bb","cc");
-        return "success";
+        return SUCCESS;
     }
 
     public String save() {
