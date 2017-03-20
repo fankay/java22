@@ -7,9 +7,12 @@
 
     <include file="struts-account.xml"/>
     <include file="struts-task.xml"/>
+    <include file="struts-upload.xml"/>
+    <include file="struts-gson.xml"/>
+    <include file="struts-json.xml"/>
 
-    <package name="basePackage" extends="struts-default" abstract="true">
-        <interceptors>
+    <package name="basePackage" extends="struts-default,json-default" abstract="true">
+        <!--<interceptors>
             <interceptor name="login" class="com.kaishengit.action.interceptor.LoginInterceptor">
                 <param name="namespace">/</param>
                 <param name="actionNames">index,login</param>
@@ -27,7 +30,7 @@
                 <param name="namespace">/</param>
             </result>
         </global-results>
-
+-->
     </package>
 
 

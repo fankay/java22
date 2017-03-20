@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+    <package name="jsonPackage" namespace="/api2" extends="basePackage">
+        <action name="user" class="com.kaishengit.action.JsonAction">
+            <result type="json">
+                <param name="root">user</param>
+                <param name="noCache">true</param>
+                <param name="enableGZIP">true</param>
+                <param name="excludeNullProperties">false</param>
+            </result>
+        </action>
+
+    </package>
+
+
+</struts>
