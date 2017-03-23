@@ -5,8 +5,10 @@
     <title>Hello,Spring</title>
 </head>
 <body>
-    <div id="header" th:replace="footer::#hd"></div>
-    <h3 th:text="${message}"></h3>
-    <div id="xyz" th:include="footer::ft('2017',${message})"></div>
+<form action="/login" method="post">
+    <input type="text" name="userName">
+    <input type="password" name="password">
+    <button>Login</button>
+</form>
 </body>
 </html>

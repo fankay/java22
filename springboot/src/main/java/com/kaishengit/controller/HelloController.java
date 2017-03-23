@@ -17,7 +17,7 @@ public class HelloController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/hello")
+    @GetMapping("/home")
     public String hello(Model model) {
         model.addAttribute("message","Hello,SpringBoot!");
 
