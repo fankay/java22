@@ -1,6 +1,8 @@
 package com.kaishengit.controller;
 
 
+import com.kaishengit.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,9 @@ import java.util.List;
 @Controller
 public class HelloController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/hello")
     public String hello(Model model) {
         model.addAttribute("message","Hello,SpringBoot!");
@@ -21,8 +26,9 @@ public class HelloController {
 
         model.addAttribute("name",name);
         model.addAttribute("nameList",nameList);
+        model.addAttribute("userList",userService.findAll());
 
-        return "index";
+        return "main";
     }
 
 }

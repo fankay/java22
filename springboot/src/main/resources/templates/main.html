@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+<head>
+    <title>首页</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div layout:fragment="content">
+        <ul>
+            <li th:each="user : ${userList}" th:text="${user.username}"></li>
+        </ul>
+    </div>
+    <div layout:fragment="content2">
+        <h3>Main page2</h3>
+    </div>
+    <script layout:fragment="js">
+        console.log("xxxx");
+    </script>
+</body>
+</html>

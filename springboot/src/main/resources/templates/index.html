@@ -5,29 +5,8 @@
     <title>Hello,Spring</title>
 </head>
 <body>
-
+    <div id="header" th:replace="footer::#hd"></div>
     <h3 th:text="${message}"></h3>
-    <h3 th:if="${name != 'Rose'}">Hello,Jack</h3>
-    <h3 th:unless="${name == 'Rose'}">Hello,Jack</h3>
-    <ul th:switch="${name}">
-        <li th:case="'jack'">Jack</li>
-        <li th:case="'rose'">Rose</li>
-        <li th:case="*">other</li>
-    </ul>
-    <hr>
-    <ul>
-        <li th:each="n,iterStat : ${nameList}" th:text="${iterStat.count}"></li>
-    </ul>
-    <hr>
-    <input type="text" th:value="${name}" th:attr="rel=${name},data-name=${name}">
-    <hr>
-    <a th:href="@{/book(name=${name})}">删除</a>
-    <a th:href="@{/book/{name}/del/{name2}(name=${name},name2=${name})}">删除2</a>
-    <script th:inline="javascript">
-        var name = [[${name}]];
-        [# th:if="${name == 'rose'}" ]
-            var id = 112;
-        [/]
-    </script>
+    <div id="xyz" th:include="footer::ft('2017',${message})"></div>
 </body>
 </html>

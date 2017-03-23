@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div id="hd">
+        <h3>CRM系统</h3>
+    </div>
+    <div class="ft" th:fragment="ft(year,name)">
+        <h4>@<span th:text="${name}"></span>-<span th:text="${year}"></span></h4>
+    </div>
+</body>
+</html>
