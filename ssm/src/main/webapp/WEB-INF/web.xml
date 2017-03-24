@@ -47,6 +47,16 @@
         <servlet-name>spring</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!--druid-->
+    <servlet>
+        <servlet-name>druid</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>druid</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
     
     <!--Spring ApplicationContext监听器-->
     <listener>
