@@ -75,6 +75,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Device> findDeviceBySearchParam(Map<String, Object> searchParam) {
         return deviceMapper.findBySeachParam(searchParam);
     }
@@ -265,6 +266,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DeviceRent> findDeviceRentByQueryParam(Map<String, Object> queryParam) {
         return rentMapper.findByQueryParam(queryParam);
     }

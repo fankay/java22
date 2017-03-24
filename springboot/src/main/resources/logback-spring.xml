@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <jmxConfigurator/>
+   <!-- <jmxConfigurator/>-->
     <logger name="com.kaishengit" level="debug"/>
+    <logger name="org.apache.ibatis" level="debug"/>
 </configuration>
